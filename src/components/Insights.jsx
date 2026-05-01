@@ -77,59 +77,59 @@ const Insights = ({ language }) => {
       // Simulate API Fetch Delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Daily Updates: High-stability articles from major news sources
+      // Daily Updates: Stable news section pages (never 404)
       const mockDaily = [
         {
           id: 'd1',
-          title: language === 'en' ? "India Elections 2024: The Final Verdict" : "भारत चुनाव 2024: अंतिम फैसला",
+          title: language === 'en' ? "Latest India Election News & Updates" : "भारत चुनाव की ताज़ा खबरें और अपडेट",
           source: "The Hindu",
           image: "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
-          date: "Verified",
-          url: "https://www.thehindu.com/news/national/elections-2024-voting-concludes-in-last-phase/article68239049.ece"
+          date: "Live Feed",
+          url: "https://www.thehindu.com/elections/"
         },
         {
           id: 'd2',
-          title: language === 'en' ? "World's Largest Election: Results Explained" : "दुनिया का सबसे बड़ा चुनाव: परिणाम की व्याख्या",
-          source: "BBC News",
+          title: language === 'en' ? "India Election 2024 — Full Coverage" : "भारत चुनाव 2024 — पूर्ण कवरेज",
+          source: "NDTV",
           image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
-          date: "Expert View",
-          url: "https://www.bbc.com/news/articles/c1639z72pwmo"
+          date: "Breaking News",
+          url: "https://www.ndtv.com/elections"
         },
         {
           id: 'd3',
-          title: language === 'en' ? "Final Seat Tally & Performance Analysis" : "अंतिम सीट तालिका और प्रदर्शन विश्लेषण",
-          source: "Economic Times",
+          title: language === 'en' ? "Lok Sabha Election Results — Seat-by-Seat" : "लोकसभा चुनाव परिणाम — सीट दर सीट",
+          source: "BBC India",
           image: "https://images.unsplash.com/photo-1554224155-169641357599?q=80&w=800&auto=format&fit=crop",
           date: "In-Depth",
-          url: "https://economictimes.indiatimes.com/news/elections/lok-sabha/india/lok-sabha-election-results-2024-live-updates-on-winners-seat-share-party-wise-tally/articleshow/110672081.cms"
+          url: "https://www.bbc.com/news/world/asia/india"
         }
       ];
 
-      // For You: Explanations & Deep Dives (Evergreen Links)
+      // For You: Evergreen educational section pages
       const mockForYou = [
         {
           id: 'f1',
-          title: language === 'en' ? "The Technology Behind India's EVMs" : "भारत की ईवीएम के पीछे की तकनीक",
-          source: "BBC Future",
+          title: language === 'en' ? "How India Votes: EVMs, Booths & Process Explained" : "भारत कैसे वोट देता है: ईवीएम, बूथ और प्रक्रिया",
+          source: "BBC Explainers",
           image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=800&auto=format&fit=crop",
           date: "Educational",
-          url: "https://www.bbc.com/news/world-asia-india-68748308"
+          url: "https://www.bbc.com/news/topics/c77jz3mdq9rt"
         },
         {
           id: 'f2',
-          title: language === 'en' ? "Everything You Need to Know About MCC" : "एमसीसी के बारे में सब कुछ जो आपको जानना आवश्यक है",
+          title: language === 'en' ? "Explained: Indian Elections, Parties & Democracy" : "विस्तृत: भारतीय चुनाव, दल और लोकतंत्र",
           source: "Indian Express",
           image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop",
-          date: "Importance: High",
-          url: "https://indianexpress.com/article/explained/explained-politics/what-is-mcc-election-commission-9217520/"
+          date: "Must Read",
+          url: "https://indianexpress.com/section/explained/explained-politics/"
         },
         {
           id: 'f3',
-          title: language === 'en' ? "Voter Guide: How to Ensure Your Vote Counts" : "मतदाता मार्गदर्शिका: अपना वोट सुनिश्चित कैसे करें",
-          source: "The Hindu",
+          title: language === 'en' ? "Voter's Guide: Registration, Polling & Your Rights" : "मतदाता मार्गदर्शिका: पंजीकरण, मतदान और अधिकार",
+          source: "Times of India",
           image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
-          date: "Must Read",
-          url: "https://www.thehindu.com/news/national/elections-2024-voter-guide-how-to-find-your-name-on-electoral-roll-and-vote/article68078971.ece"
+          date: "Essential",
+          url: "https://timesofindia.indiatimes.com/topic/lok-sabha-election"
         }
       ];
 
