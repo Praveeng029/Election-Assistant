@@ -6,7 +6,6 @@ const Insights = ({ language }) => {
   const t = translations[language];
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedNews, setSelectedNews] = useState(null);
   const [showOthers, setShowOthers] = useState(false);
 
   // Fallback image for news if sources fail
@@ -47,7 +46,7 @@ const Insights = ({ language }) => {
             source: "Election Times",
             image: "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
             date: "2 hours ago",
-            content: language === 'en' ? "The Election Commission of India has officially released the schedule for the upcoming general elections. The polling will be conducted in 7 phases starting from April 19. Results will be announced on June 4." : "भारत के चुनाव आयोग ने आधिकारिक तौर पर आगामी आम चुनावों के लिए कार्यक्रम जारी कर दिया है। मतदान 19 अप्रैल से शुरू होकर 7 चरणों में होगा। परिणाम 4 जून को घोषित किए जाएंगे।"
+            url: "https://elections24.eci.gov.in"
           },
           {
             id: 2,
@@ -55,7 +54,7 @@ const Insights = ({ language }) => {
             source: "National Review",
             image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
             date: "5 hours ago",
-            content: language === 'en' ? "Massive voter participation was recorded in the first phase of elections across 102 constituencies. Youth and first-time voters turned up in large numbers, showing strong democratic spirit." : "102 निर्वाचन क्षेत्रों में चुनावों के पहले चरण में बड़े पैमाने पर मतदाताओं की भागीदारी दर्ज की गई। युवा और पहली बार वोट देने वाले बड़ी संख्या में पहुंचे, जो मजबूत लोकतांत्रिक भावना को दर्शाता है।"
+            url: "https://pib.gov.in"
           },
           {
             id: 3,
@@ -63,7 +62,7 @@ const Insights = ({ language }) => {
             source: "Tech Democracy",
             image: "https://images.unsplash.com/photo-1554224155-169641357599?q=80&w=800&auto=format&fit=crop",
             date: "1 day ago",
-            content: language === 'en' ? "The latest generation of EVMs features advanced encryption and VVPAT verification, making the voting process more transparent and tamper-proof than ever. Experts confirm the system is foolproof." : "ईवीएम की नवीनतम पीढ़ी में उन्नत एन्क्रिप्शन और वीवीपीएटी सत्यापन की सुविधा है, जो मतदान प्रक्रिया को पहले से कहीं अधिक पारदर्शी और छेड़छाड़-मुक्त बनाती है। विशेषज्ञों ने पुष्टि की है कि सिस्टम पूरी तरह सुरक्षित है।"
+            url: "https://www.eci.gov.in/voter-education"
           }
         ];
         setNews(mockNews);
@@ -152,7 +151,13 @@ const Insights = ({ language }) => {
               ))
             ) : (
               news.map((item) => (
-                <div key={item.id} className="news-card clickable-card premium-style" onClick={() => setSelectedNews(item)}>
+                <a 
+                  key={item.id} 
+                  href={item.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="news-card clickable-card premium-style"
+                >
                   <div className="news-image-wrapper">
                     <img 
                       src={item.image} 
@@ -171,39 +176,16 @@ const Insights = ({ language }) => {
                     </div>
                     <h4>{item.title}</h4>
                     <span className="open-btn">
-                      {language === 'en' ? 'Open Full Story' : 'पूरी कहानी खोलें'}
+                      {language === 'en' ? 'Read Original Story' : 'मूल कहानी पढ़ें'}
                       <ExternalLink size={14} />
                     </span>
                   </div>
-                </div>
+                </a>
               ))
             )}
           </div>
         </div>
       </div>
-
-      {/* News Modal */}
-      {selectedNews && (
-        <div className="modal-overlay visible" onClick={() => setSelectedNews(null)}>
-          <div className="modal-content-large slide-up" onClick={e => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={() => setSelectedNews(null)}>&times;</button>
-            <div className="modal-top-image">
-              <img src={selectedNews.image} alt="news detail" />
-            </div>
-            <div className="modal-inner-body">
-              <div className="modal-labels">
-                <span className="source-label">{selectedNews.source}</span>
-                <span className="date-label">{selectedNews.date}</span>
-              </div>
-              <h2 className="modal-title">{selectedNews.title}</h2>
-              <div className="modal-text">
-                <p>{selectedNews.content}</p>
-                <p>{language === 'en' ? 'Stay tuned for more live updates on this developing story as we bring you real-time data from the ground.' : 'इस विकसित कहानी पर अधिक लाइव अपडेट के लिए बने रहें क्योंकि हम आपके लिए जमीन से रीयल-टाइम डेटा लाते हैं।'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
