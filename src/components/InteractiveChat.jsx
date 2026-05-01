@@ -24,8 +24,25 @@ const InteractiveChat = () => {
   }, [messages, isTyping]);
 
   const processResponse = (userText) => {
-    const text = userText.toLowerCase();
+    const text = userText.toLowerCase().trim();
     
+    // Casual/Short triggers
+    const greetings = ['hi', 'hello', 'hey', 'namaste', 'hola'];
+    const acknowledgments = ['ok', 'okay', 'thanks', 'thank you', 'cool', 'wow', 'nice'];
+
+    if (greetings.some(g => text === g || text.startsWith(g + ' '))) {
+      return "Namaste! 🙏 Hello there! I'm your Election Expert. What part of the Indian electoral process are you curious about today? (e.g., Voting steps, EVMs, or Eligibility)";
+    }
+
+    if (acknowledgments.some(a => text === a || text.startsWith(a + ' '))) {
+      const followUps = [
+        "You're welcome! Would you like to test your knowledge with a Quick Quiz?",
+        "Glad I could help! Do you want to know about the Model Code of Conduct or how VVPAT works?",
+        "Anytime! Feel free to ask anything else about elections, or check out the Process Timeline above!"
+      ];
+      return followUps[Math.floor(Math.random() * followUps.length)];
+    }
+
     // Search for matching keywords in chatData
     const match = chatData.find(item => 
       item.keywords.some(keyword => text.includes(keyword)) || 
@@ -33,9 +50,9 @@ const InteractiveChat = () => {
     );
 
     if (match) {
-      return match.answer;
+      return `${match.answer}\n\nIs there anything else specifically about this topic you'd like to dive into?`;
     } else {
-      return "I'm not exactly sure about that specific detail. I recommend checking the official Election Commission website (eci.gov.in) for the latest updates and detailed legal provisions. (Note: I cannot provide live data or exact real-time statistics).";
+      return "I'm not exactly sure about that specific detail. I recommend checking the official Election Commission website (eci.gov.in) for the latest updates. \n\nIn the meantime, would you like to learn about the basic voting process or voter eligibility?";
     }
   };
 
