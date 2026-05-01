@@ -5,7 +5,6 @@ import Flashcard from './components/Flashcard';
 import Quiz from './components/Quiz';
 import InteractiveChat from './components/InteractiveChat';
 import Insights from './components/Insights';
-import IndiaMap from './components/IndiaMap';
 import { MessageSquare, Languages } from 'lucide-react';
 import { translations } from './utils/translations';
 import './index.css';
