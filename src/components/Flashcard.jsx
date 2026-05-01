@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import flashcardsData from '../data/flashcards.json';
-import { RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
+import { translations } from '../utils/translations';
 
-const Flashcard = () => {
+const Flashcard = ({ language }) => {
+  const t = translations[language];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 

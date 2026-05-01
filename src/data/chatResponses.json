@@ -1,62 +1,29 @@
 [
   {
     "id": "intro",
-    "keywords": ["process", "general", "steps", "how", "election"],
-    "question": "What is the general election process?",
-    "answer": "The Indian election process is a massive exercise! It generally follows these steps: \n1. Delimitation (setting boundaries)\n2. Voter Registration\n3. Notification by the Election Commission\n4. Filing Nominations by candidates\n5. Campaigning\n6. Polling Day (Voting)\n7. Counting and Results.\nWhich step would you like to know more about?"
+    "keywords": ["process", "steps", "how", "election", "प्रक्रिया", "चरण"],
+    "question": { "en": "What is the general election process?", "hi": "सामान्य चुनाव प्रक्रिया क्या है?" },
+    "answer": { 
+      "en": "The Indian election process is a massive exercise! It involves delimitation, registration, nominations, and polling.", 
+      "hi": "भारतीय चुनाव प्रक्रिया एक विशाल अभ्यास है! इसमें परिसीमन, पंजीकरण, नामांकन और मतदान शामिल है।" 
+    }
   },
   {
     "id": "mcc",
-    "keywords": ["mcc", "model code", "conduct", "rules", "guidelines"],
-    "question": "What is the Model Code of Conduct?",
-    "answer": "The Model Code of Conduct (MCC) is a set of guidelines issued by the Election Commission. It kicks in the moment elections are announced. It ensures a level playing field by preventing the ruling party from using government machinery for campaigning, forbidding new welfare schemes to influence voters, and setting rules for rallies and speeches."
-  },
-  {
-    "id": "polling",
-    "keywords": ["polling", "day", "booth", "voting", "how to vote"],
-    "question": "What happens on Polling Day?",
-    "answer": "On Polling Day, registered voters go to their designated polling booths. After verifying their identity (usually with an EPIC/Voter ID), they enter a private voting compartment. They press the blue button on the Electronic Voting Machine (EVM) next to their chosen candidate. A slip then prints in the VVPAT machine for 7 seconds so the voter can verify their choice before it drops into a sealed box."
-  },
-  {
-    "id": "eci",
-    "keywords": ["eci", "commission", "who", "conducts", "body"],
-    "question": "Who conducts the elections?",
-    "answer": "Elections for the Lok Sabha and State Assemblies are conducted by the Election Commission of India (ECI), an independent constitutional body. Local body elections (like Panchayats) are handled by State Election Commissions."
-  },
-  {
-    "id": "nota",
-    "keywords": ["nota", "none", "dissatisfaction", "reject"],
-    "question": "Can I choose not to vote for anyone?",
-    "answer": "Yes! If you don't like any of the candidates, you can choose NOTA (None Of The Above) on the EVM. While NOTA votes are counted, they don't affect the election result (the candidate with the highest votes still wins), but it allows citizens to express their dissatisfaction officially."
+    "keywords": ["mcc", "code", "conduct", "आचार संहिता", "नियम"],
+    "question": { "en": "What is the Model Code of Conduct?", "hi": "आदर्श आचार संहिता क्या है?" },
+    "answer": { 
+      "en": "It's a set of guidelines for political parties to ensure fair elections.", 
+      "hi": "यह निष्पक्ष चुनाव सुनिश्चित करने के लिए राजनीतिक दलों के लिए दिशा-निर्देशों का एक समूह है।" 
+    }
   },
   {
     "id": "eligibility",
-    "keywords": ["age", "eligible", "18", "who can vote"],
-    "question": "Who is eligible to vote?",
-    "answer": "To be eligible to vote in India, you must be: \n1. A citizen of India.\n2. 18 years of age or older on the qualifying date (usually Jan 1st of the year).\n3. Ordinarily resident in the constituency.\n4. Not otherwise disqualified (e.g., unsound mind or certain criminal convictions)."
-  },
-  {
-    "id": "evm",
-    "keywords": ["evm", "machine", "electronic", "hacked", "security"],
-    "question": "What is an EVM?",
-    "answer": "An EVM (Electronic Voting Machine) is a device used to record votes electronically. It consists of two units: a Control Unit (with the polling officer) and a Balloting Unit (in the voting compartment). They are standalone machines, not connected to any network (internet, bluetooth, or wifi), making them highly secure against remote hacking."
-  },
-  {
-    "id": "vvpat",
-    "keywords": ["vvpat", "slip", "verify", "paper trail"],
-    "question": "What is VVPAT?",
-    "answer": "VVPAT stands for Voter Verifiable Paper Audit Trail. It is an independent system attached to the EVM that allows voters to verify that their vote was cast as intended. When a vote is cast, a paper slip is displayed behind a transparent window for 7 seconds showing the candidate's name, serial number, and symbol."
-  },
-  {
-    "id": "id",
-    "keywords": ["epic", "voter id", "card", "documents", "identity"],
-    "question": "What documents do I need to vote?",
-    "answer": "While the EPIC (Electors Photo Identity Card) or Voter ID is the primary document, if you don't have it, the ECI usually allows around 12 alternative photo identity documents, such as: \n- Aadhaar Card\n- PAN Card\n- Driving License\n- Passport\n- MNREGA Job Card\n- Passbooks with photos issued by Bank/Post Office."
-  },
-  {
-    "id": "types",
-    "keywords": ["lok sabha", "rajya sabha", "vidhan sabha", "types"],
-    "question": "What are the different types of elections?",
-    "answer": "India holds several types of elections: \n1. General Elections (Lok Sabha) to elect members of the lower house of Parliament.\n2. State Legislative Assembly (Vidhan Sabha) to elect members for state governments.\n3. Local Body (Panchayats and Municipalities).\n4. Rajya Sabha and Presidential/Vice-Presidential elections (indirectly elected)."
+    "keywords": ["age", "18", "eligible", "उम्र", "पात्रता"],
+    "question": { "en": "Who is eligible to vote?", "hi": "वोट देने के लिए कौन पात्र है?" },
+    "answer": { 
+      "en": "Any Indian citizen aged 18 or above who is registered in the electoral roll.", 
+      "hi": "18 वर्ष या उससे अधिक आयु का कोई भी भारतीय नागरिक जो निर्वाचक नामावली में पंजीकृत है।" 
+    }
   }
 ]

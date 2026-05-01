@@ -4,35 +4,47 @@ import Timeline from './components/Timeline';
 import Flashcard from './components/Flashcard';
 import Quiz from './components/Quiz';
 import InteractiveChat from './components/InteractiveChat';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Languages } from 'lucide-react';
+import { translations } from './utils/translations';
 import './index.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('timeline');
   const [showAssistant, setShowAssistant] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
+
+  const t = translations[language];
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'en' ? 'hi' : 'en');
   };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'timeline':
-        return <Timeline />;
+        return <Timeline language={language} />;
       case 'flashcards':
-        return <Flashcard />;
+        return <Flashcard language={language} />;
       case 'quiz':
-        return <Quiz />;
+        return <Quiz language={language} />;
       case 'chat':
-        return <InteractiveChat />;
+        return <InteractiveChat language={language} />;
       default:
-        return <Timeline />;
+        return <Timeline language={language} />;
     }
   };
 
@@ -42,7 +54,9 @@ function App() {
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         theme={theme} 
-        toggleTheme={toggleTheme} 
+        toggleTheme={toggleTheme}
+        language={language}
+        toggleLanguage={toggleLanguage}
       />
       
       <main className="main-content">
@@ -62,18 +76,18 @@ function App() {
       {showAssistant && (
         <div className="assistant-popup slide-up">
           <div className="assistant-header">
-            <h4>Election Assistant</h4>
+            <h4>{t.app.assistant}</h4>
             <button onClick={() => setShowAssistant(false)} className="close-btn">&times;</button>
           </div>
           <div className="assistant-body">
-            <p>Hi! I'm your Election Assistant. 🇮🇳</p>
-            <p>Use the navigation tabs above to explore:</p>
+            <p>{language === 'en' ? 'Hi! I\'m your Election Assistant. 🇮🇳' : 'नमस्ते! मैं आपका चुनाव सहायक हूँ। 🇮🇳'}</p>
+            <p>{t.app.needHelp}</p>
             <ul>
-              <li><strong>Timeline:</strong> See how an election unfolds.</li>
-              <li><strong>Key Terms:</strong> Flip cards to learn jargon.</li>
-              <li><strong>Quiz:</strong> Test your knowledge!</li>
+              <li><strong>{t.nav.timeline}:</strong> {language === 'en' ? 'See how an election unfolds.' : 'देखें कि चुनाव कैसे होता है।'}</li>
+              <li><strong>{t.nav.flashcards}:</strong> {language === 'en' ? 'Flip cards to learn jargon.' : 'शब्दावली सीखने के लिए कार्ड पलटें।'}</li>
+              <li><strong>{t.nav.quiz}:</strong> {language === 'en' ? 'Test your knowledge!' : 'अपने ज्ञान का परीक्षण करें!'}</li>
             </ul>
-            <p className="hint-text">Tip: Hover over items for more details.</p>
+            <p className="hint-text">{t.app.tip}</p>
           </div>
         </div>
       )}

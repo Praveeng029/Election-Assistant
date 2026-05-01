@@ -1,7 +1,9 @@
-import React from 'react';
-import { Vote, Sun, Moon } from 'lucide-react';
+import { Vote, Sun, Moon, Languages } from 'lucide-react';
+import { translations } from '../utils/translations';
 
-const Header = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
+const Header = ({ activeTab, setActiveTab, theme, toggleTheme, language, toggleLanguage }) => {
+  const t = translations[language];
+
   return (
     <header className="app-header">
       <div className="header-container">
@@ -9,7 +11,7 @@ const Header = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
           <div className="logo-icon">
             <Vote size={32} />
           </div>
-          <h1>India Elects</h1>
+          <h1>{t.app.title}</h1>
         </div>
         
         <div className="header-actions">
@@ -18,35 +20,46 @@ const Header = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
               className={`nav-btn ${activeTab === 'timeline' ? 'active' : ''}`}
               onClick={() => setActiveTab('timeline')}
             >
-              Process Timeline
+              {t.nav.timeline}
             </button>
             <button 
               className={`nav-btn ${activeTab === 'flashcards' ? 'active' : ''}`}
               onClick={() => setActiveTab('flashcards')}
             >
-              Key Terms
+              {t.nav.flashcards}
             </button>
             <button 
               className={`nav-btn ${activeTab === 'quiz' ? 'active' : ''}`}
               onClick={() => setActiveTab('quiz')}
             >
-              Knowledge Check
+              {t.nav.quiz}
             </button>
             <button 
               className={`nav-btn ${activeTab === 'chat' ? 'active' : ''}`}
               onClick={() => setActiveTab('chat')}
             >
-              Interactive Chat
+              {t.nav.chat}
             </button>
           </nav>
 
-          <button 
-            className="theme-toggle" 
-            onClick={toggleTheme}
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-          </button>
+          <div className="toggle-group">
+            <button 
+              className="lang-toggle" 
+              onClick={toggleLanguage}
+              title={`Switch to ${language === 'en' ? 'Hindi' : 'English'}`}
+            >
+              <Languages size={20} />
+              <span>{language === 'en' ? 'HI' : 'EN'}</span>
+            </button>
+
+            <button 
+              className="theme-toggle" 
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+          </div>
         </div>
       </div>
     </header>

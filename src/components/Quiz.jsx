@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import quizzesData from '../data/quizzes.json';
 import { CheckCircle2, XCircle, Award, RotateCcw } from 'lucide-react';
+import { translations } from '../utils/translations';
 
-const Quiz = () => {
+const Quiz = ({ language }) => {
+  const t = translations[language];
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
