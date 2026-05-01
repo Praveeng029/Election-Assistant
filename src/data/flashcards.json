@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fc1",
+    "term": "EVM",
+    "definition": "Electronic Voting Machine. Used in Indian elections to cast and record votes electronically, replacing paper ballots."
+  },
+  {
+    "id": "fc2",
+    "term": "VVPAT",
+    "definition": "Voter Verifiable Paper Audit Trail. A machine attached to the EVM that prints a paper slip containing the chosen candidate's serial number, name, and symbol, allowing the voter to verify their vote."
+  },
+  {
+    "id": "fc3",
+    "term": "NOTA",
+    "definition": "None of the Above. An option on the EVM allowing a voter to officially register a vote of rejection for all candidates contesting the election."
+  },
+  {
+    "id": "fc4",
+    "term": "MCC",
+    "definition": "Model Code of Conduct. A set of guidelines issued by the Election Commission of India for conduct of political parties and candidates during elections mainly with respect to speeches, polling day, polling booths, portfolios, election manifestos, processions and general conduct."
+  },
+  {
+    "id": "fc5",
+    "term": "EPIC",
+    "definition": "Elector's Photo Identity Card. Also known as Voter ID card, issued by the Election Commission of India to adult citizens to serve as an identity proof while casting votes."
+  },
+  {
+    "id": "fc6",
+    "term": "ECI",
+    "definition": "Election Commission of India. An autonomous constitutional authority responsible for administering election processes in India at national and state levels."
+  }
+]

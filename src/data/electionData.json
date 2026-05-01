@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "Delimitation",
+    "description": "Fixing the boundaries of territorial constituencies to reflect changes in population.",
+    "icon": "Map"
+  },
+  {
+    "id": 2,
+    "title": "Electoral Rolls Update",
+    "description": "Preparation and revision of the electoral rolls to include new voters and remove ineligible ones.",
+    "icon": "Users"
+  },
+  {
+    "id": 3,
+    "title": "Announcement & Notification",
+    "description": "The Election Commission announces the schedule, and the President/Governor issues the formal notification.",
+    "icon": "Bell"
+  },
+  {
+    "id": 4,
+    "title": "Model Code of Conduct (MCC)",
+    "description": "Comes into effect immediately after the announcement to ensure a level playing field.",
+    "icon": "Scale"
+  },
+  {
+    "id": 5,
+    "title": "Filing of Nominations",
+    "description": "Candidates submit their nomination papers to the Returning Officer.",
+    "icon": "FileText"
+  },
+  {
+    "id": 6,
+    "title": "Scrutiny of Nominations",
+    "description": "The Returning Officer checks the nomination papers for validity.",
+    "icon": "CheckSquare"
+  },
+  {
+    "id": 7,
+    "title": "Withdrawal of Candidature",
+    "description": "Candidates are given a few days to withdraw their nominations if they wish.",
+    "icon": "XCircle"
+  },
+  {
+    "id": 8,
+    "title": "Campaigning",
+    "description": "Candidates campaign to woo voters. Campaigning ends 48 hours before polling starts.",
+    "icon": "Megaphone"
+  },
+  {
+    "id": 9,
+    "title": "Polling Day",
+    "description": "Voters cast their votes using Electronic Voting Machines (EVMs) and VVPATs.",
+    "icon": "Vote"
+  },
+  {
+    "id": 10,
+    "title": "Counting of Votes",
+    "description": "Votes are counted under the supervision of the Returning Officer.",
+    "icon": "Calculator"
+  },
+  {
+    "id": 11,
+    "title": "Declaration of Results",
+    "description": "The candidate with the highest number of valid votes is declared elected.",
+    "icon": "Award"
+  }
+]

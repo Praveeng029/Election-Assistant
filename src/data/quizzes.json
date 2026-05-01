@@ -1,0 +1,37 @@
+[
+  {
+    "id": "q1",
+    "question": "What is the minimum age requirement to be eligible to vote in India?",
+    "options": ["16 years", "18 years", "21 years", "25 years"],
+    "answer": 1,
+    "explanation": "The Sixty-first Amendment of the Constitution of India, officially known as The Constitution (Sixty-first Amendment) Act, 1988, lowered the voting age of elections to the Lok Sabha and to the Legislative Assemblies of States from 21 years to 18 years."
+  },
+  {
+    "id": "q2",
+    "question": "How many members are elected to the Lok Sabha (House of the People)?",
+    "options": ["543", "545", "550", "250"],
+    "answer": 0,
+    "explanation": "Currently, 543 members are directly elected to the Lok Sabha from single-member constituencies."
+  },
+  {
+    "id": "q3",
+    "question": "Who appoints the Chief Election Commissioner of India?",
+    "options": ["The Prime Minister", "The Chief Justice of India", "The President of India", "The Parliament"],
+    "answer": 2,
+    "explanation": "The President of India appoints the Chief Election Commissioner and other Election Commissioners."
+  },
+  {
+    "id": "q4",
+    "question": "What does NOTA stand for?",
+    "options": ["None Of The Above", "No Other True Alternative", "Not Only This Area", "Newly Organized Territorial Assembly"],
+    "answer": 0,
+    "explanation": "NOTA stands for 'None of the Above', an option on the voting machine allowing voters to reject all candidates."
+  },
+  {
+    "id": "q5",
+    "question": "Which body conducts the elections to the Panchayats and Municipalities?",
+    "options": ["Election Commission of India", "State Election Commission", "Ministry of Home Affairs", "Parliament of India"],
+    "answer": 1,
+    "explanation": "The State Election Commissions constituted under the Constitution (Seventy-third and Seventy-fourth) Amendments Act, 1992 for each State / Union Territory are vested with the powers of conduct of elections to the Corporations, Muncipalities, Zilla Parishads, District Panchayats, Panchayat Samitis, Gram Panchayats and other local bodies."
+  }
+]

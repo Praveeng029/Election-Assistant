@@ -1,0 +1,27 @@
+[
+  {
+    "id": "intro",
+    "question": "What is the general election process?",
+    "answer": "The Indian election process is a massive exercise! It generally follows these steps: \n1. Delimitation (setting boundaries)\n2. Voter Registration\n3. Notification by the Election Commission\n4. Filing Nominations by candidates\n5. Campaigning\n6. Polling Day (Voting)\n7. Counting and Results.\nWhich step would you like to know more about?"
+  },
+  {
+    "id": "mcc",
+    "question": "What is the Model Code of Conduct?",
+    "answer": "The Model Code of Conduct (MCC) is a set of guidelines issued by the Election Commission. It kicks in the moment elections are announced. It ensures a level playing field by preventing the ruling party from using government machinery for campaigning, forbidding new welfare schemes to influence voters, and setting rules for rallies and speeches."
+  },
+  {
+    "id": "polling",
+    "question": "What happens on Polling Day?",
+    "answer": "On Polling Day, registered voters go to their designated polling booths. After verifying their identity (usually with an EPIC/Voter ID), they enter a private voting compartment. They press the blue button on the Electronic Voting Machine (EVM) next to their chosen candidate. A slip then prints in the VVPAT machine for 7 seconds so the voter can verify their choice before it drops into a sealed box."
+  },
+  {
+    "id": "eci",
+    "question": "Who conducts the elections?",
+    "answer": "Elections for the Lok Sabha and State Assemblies are conducted by the Election Commission of India (ECI), an independent constitutional body. Local body elections (like Panchayats) are handled by State Election Commissions."
+  },
+  {
+    "id": "nota",
+    "question": "Can I choose not to vote for anyone?",
+    "answer": "Yes! If you don't like any of the candidates, you can choose NOTA (None Of The Above) on the EVM. While NOTA votes are counted, they don't affect the election result (the candidate with the highest votes still wins), but it allows citizens to express their dissatisfaction officially."
+  }
+]
