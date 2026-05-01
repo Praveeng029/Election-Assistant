@@ -25,7 +25,7 @@ const Timeline = ({ language }) => {
                 </div>
                 <h3>{item.title[language] || item.title}</h3>
                 <p>{item.description[language] || item.description}</p>
-                <span className="step-number">{index + 1}</span>
+                <div className="timeline-dot"></div>
               </div>
             </div>
           );

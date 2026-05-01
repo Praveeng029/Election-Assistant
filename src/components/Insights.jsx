@@ -34,7 +34,7 @@ const NewsCard = ({ item, language, isPremium }) => (
       </div>
       <h4>{item.title}</h4>
       <span className="open-btn">
-        {language === 'en' ? 'Read Original Story' : 'मूल कहानी पढ़ें'}
+        {language === 'en' ? 'READ' : 'पढ़ें'}
         <ExternalLink size={14} />
       </span>
     </div>

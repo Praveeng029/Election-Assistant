@@ -3,7 +3,7 @@ export const translations = {
     nav: {
       timeline: "Process Timeline",
       flashcards: "Key Terms",
-      quiz: "Knowledge Check",
+      quiz: "Quiz",
       chat: "Interactive Chat",
       insights: "Election Insights"
     },
@@ -30,7 +30,7 @@ export const translations = {
     nav: {
       timeline: "चुनाव प्रक्रिया",
       flashcards: "मुख्य शब्द",
-      quiz: "ज्ञान की जाँच",
+      quiz: "क्विज़",
       chat: "बातचीत सहायक",
       insights: "चुनाव विश्लेषण"
     },
