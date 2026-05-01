@@ -771,18 +771,19 @@ h1, h2, h3, h4 {
   border-top-right-radius: 0;
 }
 
-.chat-input-area {
+/* Interactive Chat Controls */
+.chat-controls {
   padding: 1.5rem;
   background-color: var(--bg-primary);
   border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.suggestions-title {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.suggestions-area {
+  display: flex;
+  flex-direction: column;
 }
 
 .suggestions-list {
@@ -795,30 +796,82 @@ h1, h2, h3, h4 {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
   border-radius: 2rem;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .suggestion-btn:hover:not(:disabled) {
   border-color: var(--saffron-light);
   color: var(--saffron-dark);
   background-color: rgba(255, 153, 51, 0.05);
-  transform: translateY(-2px);
 }
 
-.suggestion-btn:disabled {
+.chat-input-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.chat-input-form input {
+  flex: 1;
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input-form input:focus {
+  border-color: var(--saffron-light);
+}
+
+.chat-input-form button {
+  background: linear-gradient(135deg, var(--saffron-light), var(--saffron-dark));
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+
+.chat-input-form button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.chat-input-form button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--text-secondary);
 }
 
-.send-icon {
-  color: var(--saffron-light);
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .typing-indicator {
