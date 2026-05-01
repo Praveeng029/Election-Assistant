@@ -4,14 +4,18 @@ export const translations = {
       timeline: "Process Timeline",
       flashcards: "Key Terms",
       quiz: "Knowledge Check",
-      chat: "Interactive Chat"
+      chat: "Interactive Chat",
+      insights: "Election Insights"
     },
     app: {
       title: "India Elects",
       assistant: "Election Assistant",
       needHelp: "Need Help?",
       tip: "Tip: Hover over items for more details.",
-      footer: "Built with ❤️ for democratic awareness."
+      footer: "Built with ❤️ for democratic awareness.",
+      latestNews: "Latest Election News",
+      seatTracker: "Live Seat Tracker",
+      totalSeats: "Total Seats"
     },
     common: {
       back: "Back",
@@ -27,14 +31,18 @@ export const translations = {
       timeline: "चुनाव प्रक्रिया",
       flashcards: "मुख्य शब्द",
       quiz: "ज्ञान की जाँच",
-      chat: "बातचीत सहायक"
+      chat: "बातचीत सहायक",
+      insights: "चुनाव विश्लेषण"
     },
     app: {
       title: "भारत चुनाव",
       assistant: "चुनाव सहायक",
       needHelp: "क्या आपको मदद चाहिए?",
       tip: "सुझाव: अधिक जानकारी के लिए आइटम पर होवर करें।",
-      footer: "लोकतांत्रिक जागरूकता के लिए ❤️ के साथ बनाया गया।"
+      footer: "लोकतांत्रिक जागरूकता के लिए ❤️ के साथ बनाया गया।",
+      latestNews: "ताज़ा चुनाव समाचार",
+      seatTracker: "लाइव सीट ट्रैकर",
+      totalSeats: "कुल सीटें"
     },
     common: {
       back: "पीछे",

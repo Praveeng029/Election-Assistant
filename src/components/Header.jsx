@@ -40,6 +40,12 @@ const Header = ({ activeTab, setActiveTab, theme, toggleTheme, language, toggleL
             >
               {t.nav.chat}
             </button>
+            <button 
+              className={`nav-btn ${activeTab === 'insights' ? 'active' : ''}`}
+              onClick={() => setActiveTab('insights')}
+            >
+              {t.nav.insights}
+            </button>
           </nav>
 
           <div className="toggle-group">

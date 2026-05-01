@@ -4,6 +4,7 @@ import Timeline from './components/Timeline';
 import Flashcard from './components/Flashcard';
 import Quiz from './components/Quiz';
 import InteractiveChat from './components/InteractiveChat';
+import Insights from './components/Insights';
 import { MessageSquare, Languages } from 'lucide-react';
 import { translations } from './utils/translations';
 import './index.css';
@@ -43,6 +44,8 @@ function App() {
         return <Quiz language={language} />;
       case 'chat':
         return <InteractiveChat language={language} />;
+      case 'insights':
+        return <Insights language={language} />;
       default:
         return <Timeline language={language} />;
     }
