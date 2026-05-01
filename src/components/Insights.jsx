@@ -77,59 +77,59 @@ const Insights = ({ language }) => {
       // Simulate API Fetch Delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Daily Updates: Latest News
+      // Daily Updates: Latest News from major news sources
       const mockDaily = [
         {
           id: 'd1',
-          title: language === 'en' ? "General Election 2024: Phase 2 Voting Begins" : "आम चुनाव 2024: दूसरे चरण का मतदान शुरू",
-          source: "ECI News",
+          title: language === 'en' ? "India Elections 2024: A Historic Mandate" : "भारत चुनाव 2024: एक ऐतिहासिक जनादेश",
+          source: "The Hindu",
           image: "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
-          date: "4 hours ago",
-          url: "https://www.eci.gov.in/files/file/15647-general-election-2024-schedule/"
+          date: "Live Update",
+          url: "https://www.thehindu.com/news/national/elections-2024-voting-concludes-in-last-phase/article68239049.ece"
         },
         {
           id: 'd2',
-          title: language === 'en' ? "High Tech Monitoring System Deployed for Fair Elections" : "निष्पक्ष चुनाव के लिए हाई टेक निगरानी प्रणाली तैनात",
-          source: "National Review",
+          title: language === 'en' ? "Elections 2024 Live Results & Highlights" : "चुनाव 2024 लाइव परिणाम और मुख्य अंश",
+          source: "Times of India",
           image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
-          date: "6 hours ago",
-          url: "https://pib.gov.in/PressReleasePage.aspx?PRID=2015842"
+          date: "Latest",
+          url: "https://timesofindia.indiatimes.com/india/lok-sabha-election-results-2024-live-updates-modi-3-0-oath-taking-ceremony-date-and-time-cabinet-ministers-list-latest-news/liveblog/110753046.cms"
         },
         {
           id: 'd3',
-          title: language === 'en' ? "Security Tightened Across Borders Ahead of Phase 3" : "तीसरे चरण से पहले सीमाओं पर सुरक्षा कड़ी की गई",
-          source: "Security Watch",
+          title: language === 'en' ? "Government Formation: Key Updates" : "सरकार गठन: प्रमुख अपडेट",
+          source: "NDTV News",
           image: "https://images.unsplash.com/photo-1554224155-169641357599?q=80&w=800&auto=format&fit=crop",
-          date: "1 day ago",
-          url: "https://www.ndtv.com/india-news/election-2024-phase-3-voting-on-may-7-full-list-of-constituencies-5582963"
+          date: "Hot News",
+          url: "https://www.ndtv.com/india-news/election-results-2024-pm-narendra-modi-government-formation-live-updates-5828456"
         }
       ];
 
-      // For You: Explanations & Importance
+      // For You: Explanations & Deep Dives
       const mockForYou = [
         {
           id: 'f1',
-          title: language === 'en' ? "How EVMs and VVPATs Work: An In-depth Guide" : "ईवीएम और वीवीपीएटी कैसे काम करते हैं: एक विस्तृत गाइड",
-          source: "Knowledge Hub",
+          title: language === 'en' ? "How EVMs Work: The Tech Behind the Vote" : "ईवीएम कैसे काम करते हैं: वोट के पीछे की तकनीक",
+          source: "BBC Explainer",
           image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=800&auto=format&fit=crop",
-          date: "Recommended",
-          url: "https://www.eci.gov.in/evm-vvpat"
+          date: "Educational",
+          url: "https://www.bbc.com/news/world-asia-india-68748308"
         },
         {
           id: 'f2',
-          title: language === 'en' ? "Understanding the Model Code of Conduct (MCC)" : "आदर्श चुनाव आचार संहिता (MCC) को समझना",
-          source: "Electoral Law",
+          title: language === 'en' ? "What is the Model Code of Conduct?" : "आदर्श चुनाव आचार संहिता क्या है?",
+          source: "The Hindu Desk",
           image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop",
           date: "Importance: High",
-          url: "https://www.eci.gov.in/mcc/"
+          url: "https://www.thehindu.com/news/national/what-is-the-model-code-of-conduct-and-how-is-it-enforced/article67965371.ece"
         },
         {
           id: 'f3',
-          title: language === 'en' ? "Role of the District Election Officer (DEO)" : "जिला निर्वाचन अधिकारी (DEO) की भूमिका",
-          source: "Democracy Guide",
+          title: language === 'en' ? "The Role of Election Observers Explained" : "चुनाव पर्यवेक्षकों की भूमिका की व्याख्या",
+          source: "Indian Express",
           image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
           date: "Must Read",
-          url: "https://www.eci.gov.in/handbooks-for-election-officials"
+          url: "https://indianexpress.com/article/explained/explained-politics/what-is-mcc-election-commission-9217520/"
         }
       ];
 
