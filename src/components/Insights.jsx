@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Newspaper, TrendingUp, BarChart3, Globe, ExternalLink, Clock, Map as MapIcon } from 'lucide-react';
+import { Newspaper, TrendingUp, BarChart3, Globe, ExternalLink, Clock } from 'lucide-react';
 import { translations } from '../utils/translations';
-import IndiaMap from './IndiaMap';
 
 const Insights = ({ language }) => {
   const t = translations[language];
@@ -9,6 +8,9 @@ const Insights = ({ language }) => {
   const [loading, setLoading] = useState(true);
   const [selectedNews, setSelectedNews] = useState(null);
   const [showOthers, setShowOthers] = useState(false);
+
+  // Fallback image for news if sources fail
+  const fallbackImg = "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop";
 
   // Mock seat data (Current projections/results)
   const seatData = [
@@ -72,6 +74,10 @@ const Insights = ({ language }) => {
     fetchNews();
   }, [language]);
 
+  const handleImageError = (e) => {
+    e.target.src = fallbackImg;
+  };
+
   return (
     <div className="insights-container fade-in">
       <div className="section-header">
@@ -79,7 +85,7 @@ const Insights = ({ language }) => {
         <p>{language === 'en' ? 'Stay updated with the latest trends, news, and seat projections.' : 'नवीनतम रुझानों, समाचारों और सीट अनुमानों के साथ अपडेट रहें।'}</p>
       </div>
 
-      <div className="insights-dashboard">
+      <div className="insights-dashboard no-map">
         {/* Seat Tracker Section */}
         <div className="insight-card tracker-card slide-up">
           <div className="card-header">
@@ -134,22 +140,29 @@ const Insights = ({ language }) => {
         </div>
 
         {/* News Section */}
-        <div className="news-section">
+        <div className="news-section full-width">
           <div className="section-title">
             <Newspaper />
             <h3>{t.app.latestNews}</h3>
           </div>
-          <div className="news-grid">
+          <div className="news-grid-expanded">
             {loading ? (
               Array(3).fill(0).map((_, i) => (
                 <div key={i} className="news-skeleton"></div>
               ))
             ) : (
               news.map((item) => (
-                <div key={item.id} className="news-card clickable-card" onClick={() => setSelectedNews(item)}>
+                <div key={item.id} className="news-card clickable-card premium-style" onClick={() => setSelectedNews(item)}>
                   <div className="news-image-wrapper">
-                    <img src={item.image} alt="news" className="news-img" />
-                    <span className="news-tag">{item.source}</span>
+                    <img 
+                      src={item.image} 
+                      alt="news" 
+                      className="news-img" 
+                      onError={handleImageError}
+                    />
+                    <div className="news-overlay">
+                      <span className="news-tag">{item.source}</span>
+                    </div>
                   </div>
                   <div className="news-content">
                     <div className="news-meta">
@@ -158,7 +171,7 @@ const Insights = ({ language }) => {
                     </div>
                     <h4>{item.title}</h4>
                     <span className="open-btn">
-                      {language === 'en' ? 'Open Story' : 'कहानी खोलें'}
+                      {language === 'en' ? 'Open Full Story' : 'पूरी कहानी खोलें'}
                       <ExternalLink size={14} />
                     </span>
                   </div>
@@ -167,9 +180,6 @@ const Insights = ({ language }) => {
             )}
           </div>
         </div>
-
-        {/* State-wise Interactive Map Section */}
-        <IndiaMap language={language} />
       </div>
 
       {/* News Modal */}
