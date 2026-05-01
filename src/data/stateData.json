@@ -1,0 +1,12 @@
+[
+  { "id": "IN-UP", "name": { "en": "Uttar Pradesh", "hi": "उत्तर प्रदेश" }, "seats": { "BJP": 62, "SP": 5, "BSP": 10, "CONG": 1, "OTH": 2 } },
+  { "id": "IN-MH", "name": { "en": "Maharashtra", "hi": "महाराष्ट्र" }, "seats": { "BJP": 23, "SHS": 18, "NCP": 4, "CONG": 1, "OTH": 2 } },
+  { "id": "IN-WB", "name": { "en": "West Bengal", "hi": "पश्चिम बंगाल" }, "seats": { "TMC": 22, "BJP": 18, "CONG": 2, "OTH": 0 } },
+  { "id": "IN-BR", "name": { "en": "Bihar", "hi": "बिहार" }, "seats": { "BJP": 17, "JD(U)": 16, "LJP": 6, "CONG": 1, "OTH": 0 } },
+  { "id": "IN-TN", "name": { "en": "Tamil Nadu", "hi": "तमिलनाडु" }, "seats": { "DMK": 24, "CONG": 8, "ADMK": 1, "OTH": 6 } },
+  { "id": "IN-MP", "name": { "en": "Madhya Pradesh", "hi": "मध्य प्रदेश" }, "seats": { "BJP": 28, "CONG": 1, "OTH": 0 } },
+  { "id": "IN-KA", "name": { "en": "Karnataka", "hi": "कर्नाटक" }, "seats": { "BJP": 25, "CONG": 1, "JD(S)": 1, "OTH": 1 } },
+  { "id": "IN-GJ", "name": { "en": "Gujarat", "hi": "गुजरात" }, "seats": { "BJP": 26, "CONG": 0, "OTH": 0 } },
+  { "id": "IN-RJ", "name": { "en": "Rajasthan", "hi": "राजस्थान" }, "seats": { "BJP": 24, "OTH": 1 } },
+  { "id": "IN-AP", "name": { "en": "Andhra Pradesh", "hi": "आंध्र प्रदेश" }, "seats": { "YSRCP": 22, "TDP": 3, "OTH": 0 } }
+]

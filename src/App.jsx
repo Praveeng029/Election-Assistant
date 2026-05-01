@@ -5,6 +5,7 @@ import Flashcard from './components/Flashcard';
 import Quiz from './components/Quiz';
 import InteractiveChat from './components/InteractiveChat';
 import Insights from './components/Insights';
+import IndiaMap from './components/IndiaMap';
 import { MessageSquare, Languages } from 'lucide-react';
 import { translations } from './utils/translations';
 import './index.css';
@@ -64,6 +65,9 @@ function App() {
       
       <main className="main-content">
         {renderContent()}
+        
+        {/* Scroll down for Map - Visible on first page load */}
+        <IndiaMap language={language} />
       </main>
 
       {/* Floating Assistant Button */}
