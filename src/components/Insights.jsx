@@ -77,59 +77,59 @@ const Insights = ({ language }) => {
       // Simulate API Fetch Delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Daily Updates: Stable news section pages (never 404)
+      // Daily Updates — Google News searches always show live, current results
       const mockDaily = [
         {
           id: 'd1',
-          title: language === 'en' ? "Latest India Election News & Updates" : "भारत चुनाव की ताज़ा खबरें और अपडेट",
-          source: "The Hindu",
+          title: language === 'en' ? "Latest India Election 2024 News" : "भारत चुनाव 2024 की ताज़ा खबरें",
+          source: "Google News",
           image: "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
           date: "Live Feed",
-          url: "https://www.thehindu.com/elections/"
+          url: "https://news.google.com/search?q=India+election+2024&hl=en-IN&gl=IN&ceid=IN:en"
         },
         {
           id: 'd2',
-          title: language === 'en' ? "India Election 2024 — Full Coverage" : "भारत चुनाव 2024 — पूर्ण कवरेज",
-          source: "NDTV",
+          title: language === 'en' ? "Lok Sabha Results & Party Seat Counts" : "लोकसभा परिणाम और पार्टी सीट गिनती",
+          source: "Google News",
           image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
-          date: "Breaking News",
-          url: "https://www.ndtv.com/elections"
+          date: "Latest",
+          url: "https://news.google.com/search?q=Lok+Sabha+election+results+2024&hl=en-IN&gl=IN&ceid=IN:en"
         },
         {
           id: 'd3',
-          title: language === 'en' ? "Lok Sabha Election Results — Seat-by-Seat" : "लोकसभा चुनाव परिणाम — सीट दर सीट",
-          source: "BBC India",
+          title: language === 'en' ? "BJP, Congress & NDA Alliance Updates" : "भाजपा, कांग्रेस और एनडीए गठबंधन अपडेट",
+          source: "Google News",
           image: "https://images.unsplash.com/photo-1554224155-169641357599?q=80&w=800&auto=format&fit=crop",
-          date: "In-Depth",
-          url: "https://www.bbc.com/news/world/asia/india"
+          date: "Breaking",
+          url: "https://news.google.com/search?q=BJP+Congress+NDA+India+election&hl=en-IN&gl=IN&ceid=IN:en"
         }
       ];
 
-      // For You: Evergreen educational section pages
+      // For You — Wikipedia: 100% stable, free, no paywall, fully readable
       const mockForYou = [
         {
           id: 'f1',
-          title: language === 'en' ? "How India Votes: EVMs, Booths & Process Explained" : "भारत कैसे वोट देता है: ईवीएम, बूथ और प्रक्रिया",
-          source: "BBC Explainers",
+          title: language === 'en' ? "2024 Indian General Election — Complete Overview" : "2024 भारतीय आम चुनाव — पूर्ण अवलोकन",
+          source: "Wikipedia",
           image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=800&auto=format&fit=crop",
           date: "Educational",
-          url: "https://www.bbc.com/news/topics/c77jz3mdq9rt"
+          url: "https://en.wikipedia.org/wiki/2024_Indian_general_election"
         },
         {
           id: 'f2',
-          title: language === 'en' ? "Explained: Indian Elections, Parties & Democracy" : "विस्तृत: भारतीय चुनाव, दल और लोकतंत्र",
-          source: "Indian Express",
+          title: language === 'en' ? "Model Code of Conduct — What It Means" : "आदर्श आचार संहिता — इसका क्या अर्थ है",
+          source: "Wikipedia",
           image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop",
           date: "Must Read",
-          url: "https://indianexpress.com/section/explained/explained-politics/"
+          url: "https://en.wikipedia.org/wiki/Model_Code_of_Conduct_(India)"
         },
         {
           id: 'f3',
-          title: language === 'en' ? "Voter's Guide: Registration, Polling & Your Rights" : "मतदाता मार्गदर्शिका: पंजीकरण, मतदान और अधिकार",
-          source: "Times of India",
+          title: language === 'en' ? "Electronic Voting in India — EVM & VVPAT Guide" : "भारत में इलेक्ट्रॉनिक मतदान — ईवीएम और वीवीपीएटी",
+          source: "Wikipedia",
           image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
           date: "Essential",
-          url: "https://timesofindia.indiatimes.com/topic/lok-sabha-election"
+          url: "https://en.wikipedia.org/wiki/Electronic_voting_in_India"
         }
       ];
 
