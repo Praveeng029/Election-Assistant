@@ -1170,7 +1170,53 @@ h1, h2, h3, h4 {
   align-items: start;
   margin-top: 2rem;
 }
-/* News & Modal Interactivity *//* High-Fidelity India Map Styles *//* Updated Dashboard without Map */
+/* News & Modal Interactivity *//* High-Fidelity India Map Styles *//* Updated Dashboard without Map *//* Global Icon & Interactive Excellence */
+.header-icon, .section-title svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--saffron-dark);
+}
+
+.clickable-card:hover .header-icon, 
+.clickable-card:hover .section-title svg {
+  transform: rotate(15deg) scale(1.2);
+}
+
+.foryou-icon {
+  color: #20C997 !important; /* Specialized green for educational content */
+}
+
+/* For You Section Styling */
+[aria-labelledby="foryou-news-title"] {
+  background: rgba(32, 201, 151, 0.03);
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(32, 201, 151, 0.1);
+  margin-top: 2rem;
+}
+
+.news-section.full-width:not(:last-child) {
+  margin-bottom: 4rem;
+}
+
+/* Accessibility & Focus States */
+.clickable-card:focus-visible {
+  outline: 3px solid var(--saffron-light);
+  outline-offset: 4px;
+}
+
+/* Skeleton Excellence */
+.news-skeleton {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-color) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  height: 350px;
+  border-radius: var(--radius-xl);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 .insights-dashboard.no-map {
   grid-template-columns: 1fr;
   gap: 3rem;
