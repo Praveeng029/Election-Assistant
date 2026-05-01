@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Newspaper, TrendingUp, BarChart3, Globe, ExternalLink, Clock } from 'lucide-react';
+import { Newspaper, TrendingUp, BarChart3, Globe, ExternalLink, Clock, Map as MapIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
+import IndiaMap from './IndiaMap';
 
 const Insights = ({ language }) => {
   const t = translations[language];
@@ -134,6 +134,9 @@ const Insights = ({ language }) => {
             )}
           </div>
         </div>
+
+        {/* State-wise Interactive Map Section */}
+        <IndiaMap language={language} />
       </div>
     </div>
   );

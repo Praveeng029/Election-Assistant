@@ -65,9 +65,6 @@ function App() {
       
       <main className="main-content">
         {renderContent()}
-        
-        {/* Scroll down for Map - Visible on first page load */}
-        <IndiaMap language={language} />
       </main>
 
       {/* Floating Assistant Button */}
