@@ -77,59 +77,59 @@ const Insights = ({ language }) => {
       // Simulate API Fetch Delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Daily Updates: Latest News from major news sources
+      // Daily Updates: High-stability articles from major news sources
       const mockDaily = [
         {
           id: 'd1',
-          title: language === 'en' ? "India Elections 2024: A Historic Mandate" : "भारत चुनाव 2024: एक ऐतिहासिक जनादेश",
+          title: language === 'en' ? "India Elections 2024: The Final Verdict" : "भारत चुनाव 2024: अंतिम फैसला",
           source: "The Hindu",
           image: "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
-          date: "Live Update",
+          date: "Verified",
           url: "https://www.thehindu.com/news/national/elections-2024-voting-concludes-in-last-phase/article68239049.ece"
         },
         {
           id: 'd2',
-          title: language === 'en' ? "Elections 2024 Live Results & Highlights" : "चुनाव 2024 लाइव परिणाम और मुख्य अंश",
-          source: "Times of India",
+          title: language === 'en' ? "World's Largest Election: Results Explained" : "दुनिया का सबसे बड़ा चुनाव: परिणाम की व्याख्या",
+          source: "BBC News",
           image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
-          date: "Latest",
-          url: "https://timesofindia.indiatimes.com/india/lok-sabha-election-results-2024-live-updates-modi-3-0-oath-taking-ceremony-date-and-time-cabinet-ministers-list-latest-news/liveblog/110753046.cms"
+          date: "Expert View",
+          url: "https://www.bbc.com/news/articles/c1639z72pwmo"
         },
         {
           id: 'd3',
-          title: language === 'en' ? "Government Formation: Key Updates" : "सरकार गठन: प्रमुख अपडेट",
-          source: "NDTV News",
+          title: language === 'en' ? "Final Seat Tally & Performance Analysis" : "अंतिम सीट तालिका और प्रदर्शन विश्लेषण",
+          source: "Economic Times",
           image: "https://images.unsplash.com/photo-1554224155-169641357599?q=80&w=800&auto=format&fit=crop",
-          date: "Hot News",
-          url: "https://www.ndtv.com/india-news/election-results-2024-pm-narendra-modi-government-formation-live-updates-5828456"
+          date: "In-Depth",
+          url: "https://economictimes.indiatimes.com/news/elections/lok-sabha/india/lok-sabha-election-results-2024-live-updates-on-winners-seat-share-party-wise-tally/articleshow/110672081.cms"
         }
       ];
 
-      // For You: Explanations & Deep Dives
+      // For You: Explanations & Deep Dives (Evergreen Links)
       const mockForYou = [
         {
           id: 'f1',
-          title: language === 'en' ? "How EVMs Work: The Tech Behind the Vote" : "ईवीएम कैसे काम करते हैं: वोट के पीछे की तकनीक",
-          source: "BBC Explainer",
+          title: language === 'en' ? "The Technology Behind India's EVMs" : "भारत की ईवीएम के पीछे की तकनीक",
+          source: "BBC Future",
           image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=800&auto=format&fit=crop",
           date: "Educational",
           url: "https://www.bbc.com/news/world-asia-india-68748308"
         },
         {
           id: 'f2',
-          title: language === 'en' ? "What is the Model Code of Conduct?" : "आदर्श चुनाव आचार संहिता क्या है?",
-          source: "The Hindu Desk",
+          title: language === 'en' ? "Everything You Need to Know About MCC" : "एमसीसी के बारे में सब कुछ जो आपको जानना आवश्यक है",
+          source: "Indian Express",
           image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&auto=format&fit=crop",
           date: "Importance: High",
-          url: "https://www.thehindu.com/news/national/what-is-the-model-code-of-conduct-and-how-is-it-enforced/article67965371.ece"
+          url: "https://indianexpress.com/article/explained/explained-politics/what-is-mcc-election-commission-9217520/"
         },
         {
           id: 'f3',
-          title: language === 'en' ? "The Role of Election Observers Explained" : "चुनाव पर्यवेक्षकों की भूमिका की व्याख्या",
-          source: "Indian Express",
+          title: language === 'en' ? "Voter Guide: How to Ensure Your Vote Counts" : "मतदाता मार्गदर्शिका: अपना वोट सुनिश्चित कैसे करें",
+          source: "The Hindu",
           image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
           date: "Must Read",
-          url: "https://indianexpress.com/article/explained/explained-politics/what-is-mcc-election-commission-9217520/"
+          url: "https://www.thehindu.com/news/national/elections-2024-voter-guide-how-to-find-your-name-on-electoral-roll-and-vote/article68078971.ece"
         }
       ];
 
