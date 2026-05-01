@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import flashcardsData from '../data/flashcards.json';
-import { ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 const Flashcard = ({ language }) => {
@@ -27,8 +27,8 @@ const Flashcard = ({ language }) => {
   return (
     <div className="flashcards-section fade-in">
       <div className="section-header">
-        <h2>Key Terminology</h2>
-        <p>Flip the cards to learn essential terms used in Indian Elections.</p>
+        <h2>{t.nav.flashcards}</h2>
+        <p>{language === 'en' ? 'Flip the cards to learn essential terms used in Indian Elections.' : 'भारतीय चुनावों में उपयोग किए जाने वाले आवश्यक शब्दों को सीखने के लिए कार्ड पलटें।'}</p>
       </div>
 
       <div className="flashcard-container">
@@ -40,7 +40,7 @@ const Flashcard = ({ language }) => {
             <div className="flashcard-front">
               <h3>{currentCard.term}</h3>
               <div className="flip-hint">
-                <RefreshCw size={16} /> Tap to flip
+                <RefreshCw size={16} /> {language === 'en' ? 'Tap to flip' : 'पलटने के लिए टैप करें'}
               </div>
             </div>
             <div className="flashcard-back">
