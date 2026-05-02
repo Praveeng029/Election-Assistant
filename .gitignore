@@ -29,3 +29,5 @@ google-cloud-cli.zip
 GoogleCloudSDKInstaller.exe
 deploy.zip
 app.zip
+
+.env
