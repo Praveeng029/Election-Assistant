@@ -101,6 +101,18 @@ const InteractiveChat = ({ language }) => {
     }
   };
 
+  const clearHistory = async () => {
+    if (!user || !window.confirm(language === 'en' ? 'Clear all chat history?' : 'क्या आप सारी चैट हिस्ट्री मिटाना चाहते हैं?')) return;
+    try {
+      const q = query(collection(db, 'chats'), where('userId', '==', user.uid));
+      const snapshot = await getDocs(q);
+      const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error("Error clearing history:", error);
+    }
+  };
+
   const handleSendMessage = async (e) => {
     if (e) e.preventDefault();
     if (!inputValue.trim()) return;
