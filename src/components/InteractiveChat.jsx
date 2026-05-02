@@ -126,30 +126,47 @@ const InteractiveChat = ({ language }) => {
     setIsTyping(true);
 
     try {
-      // Save to Firestore (will be picked up by onSnapshot eventually)
-      await saveMessage(userText, 'user');
+      // Save to Firestore (don't wait for it to finish before calling AI)
+      saveMessage(userText, 'user').catch(e => console.warn("Firestore Save failed:", e));
 
       const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY || 
                           import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY') ||
                           import.meta.env.VITE_GEMINI_API_KEY.length < 10;
       
       if (isKeyMissing) {
-        const errorMsg = language === 'en' 
-          ? "I'm currently in 'Static Mode' because the Gemini API key is missing. Please check your .env file." 
-          : "Gemini API कुंजी न होने के कारण मैं अभी 'स्टेटिक मोड' में हूँ। कृपया अपनी .env फ़ाइल की जाँच करें।";
-        setMessages(prev => [...prev, { id: 'error-' + Date.now(), sender: 'bot', text: errorMsg }]);
-        setIsTyping(false);
-        return;
+        throw new Error("API_KEY_MISSING");
       }
 
       const response = await getGeminiResponse(userText, language);
-      await saveMessage(response, 'bot');
+      
+      // Save bot response (don't wait)
+      saveMessage(response, 'bot').catch(e => console.warn("Firestore Save failed:", e));
+
+      // Immediate update if Firestore is slow/failing
+      setMessages(prev => {
+        const hasMsg = prev.some(m => m.text === response);
+        if (hasMsg) return prev;
+        return [...prev, { id: 'bot-' + Date.now(), sender: 'bot', text: response, timestamp: new Date() }];
+      });
+
     } catch (error) {
       console.error("Chat Error:", error);
+      let errorMsg = language === 'en' ? 'Something went wrong. Please try again.' : 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।';
+      
+      if (error.message === "API_KEY_MISSING") {
+        errorMsg = language === 'en' 
+          ? "AI configuration missing. Please add your Gemini API key." 
+          : "AI कॉन्फ़िगरेशन मौजूद नहीं है। कृपया अपनी Gemini API कुंजी जोड़ें।";
+      } else if (error.message.includes("SAFETY")) {
+        errorMsg = language === 'en'
+          ? "I cannot answer that due to safety guidelines. Please ask another election-related question."
+          : "सुरक्षा दिशानिर्देशों के कारण मैं इसका उत्तर नहीं दे सकता। कृपया चुनाव से संबंधित कोई अन्य प्रश्न पूछें।";
+      }
+
       setMessages(prev => [...prev, { 
         id: 'error-' + Date.now(), 
         sender: 'bot', 
-        text: language === 'en' ? 'Something went wrong. Please try again.' : 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।' 
+        text: errorMsg 
       }]);
     } finally {
       setIsTyping(false);
