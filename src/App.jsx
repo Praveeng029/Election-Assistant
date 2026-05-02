@@ -5,16 +5,20 @@ import Flashcard from './components/Flashcard';
 import Quiz from './components/Quiz';
 import InteractiveChat from './components/InteractiveChat';
 import Insights from './components/Insights';
-import { MessageSquare, Languages } from 'lucide-react';
+import AuthModal from './components/AuthModal';
+import { useAuth } from './context/AuthContext';
+import { MessageSquare } from 'lucide-react';
 import { translations } from './utils/translations';
 import './index.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('timeline');
   const [showAssistant, setShowAssistant] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
 
+  const { user } = useAuth();
   const t = translations[language];
 
   useEffect(() => {
@@ -60,11 +64,25 @@ function App() {
         toggleTheme={toggleTheme}
         language={language}
         toggleLanguage={toggleLanguage}
+        user={user}
+        onAuthClick={() => setShowAuth(true)}
       />
       
       <main className="main-content">
         {renderContent()}
       </main>
+
+      {/* Auth FAB */}
+      <button
+        className="auth-fab"
+        onClick={() => setShowAuth(true)}
+        title={user ? `Signed in as ${user.email}` : 'Login / Sign Up'}
+        id="auth-fab-btn"
+      >
+        {user
+          ? <span className="auth-fab-avatar">{(user.email || 'U')[0].toUpperCase()}</span>
+          : '🔐'}
+      </button>
 
       {/* Floating Assistant Button */}
       <button 
@@ -94,8 +112,12 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </div>
   );
 }
 
 export default App;
+
