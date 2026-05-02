@@ -49,17 +49,17 @@ const InteractiveChat = ({ language }) => {
       return;
     }
 
+    // Simplified query to avoid indexing issues in Firestore
     const q = query(
       collection(db, 'chats'),
-      where('userId', '==', user.uid),
-      orderBy('timestamp', 'asc')
+      where('userId', '==', user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      }));
+      })).sort((a, b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0)); // Sort in memory
       
       if (msgs.length === 0) {
         setMessages([{
@@ -73,34 +73,27 @@ const InteractiveChat = ({ language }) => {
       } else {
         setMessages(msgs);
       }
+    }, (error) => {
+      console.error("Firestore error:", error);
+      // Fallback for local display if Firestore fails
     });
 
     return () => unsubscribe();
   }, [user, language]);
 
   const saveMessage = async (text, sender) => {
-    if (!user) return;
+    if (!user) return null;
     try {
-      await addDoc(collection(db, 'chats'), {
+      const docRef = await addDoc(collection(db, 'chats'), {
         userId: user.uid,
         text,
         sender,
         timestamp: serverTimestamp()
       });
+      return docRef.id;
     } catch (error) {
       console.error("Error saving message:", error);
-    }
-  };
-
-  const clearHistory = async () => {
-    if (!user || !window.confirm(language === 'en' ? 'Clear all chat history?' : 'क्या आप सारी चैट हिस्ट्री मिटाना चाहते हैं?')) return;
-    try {
-      const q = query(collection(db, 'chats'), where('userId', '==', user.uid));
-      const snapshot = await getDocs(q);
-      const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
-      await Promise.all(deletePromises);
-    } catch (error) {
-      console.error("Error clearing history:", error);
+      return null;
     }
   };
 
@@ -111,9 +104,11 @@ const InteractiveChat = ({ language }) => {
     const userText = inputValue;
     setInputValue('');
     
-    // If not logged in, just show local response
+    // Optimistic UI update for better responsiveness
+    const tempId = Date.now().toString();
+    setMessages(prev => [...prev, { id: tempId, sender: 'user', text: userText, timestamp: new Date() }]);
+
     if (!user) {
-      setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: userText }]);
       setTimeout(() => {
         setMessages(prev => [...prev, { 
           id: Date.now() + 1, 
@@ -124,16 +119,21 @@ const InteractiveChat = ({ language }) => {
       return;
     }
 
-    await saveMessage(userText, 'user');
     setIsTyping(true);
 
     try {
-      const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY');
+      // Save to Firestore (will be picked up by onSnapshot eventually)
+      await saveMessage(userText, 'user');
+
+      const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY || 
+                          import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY') ||
+                          import.meta.env.VITE_GEMINI_API_KEY.length < 10;
       
       if (isKeyMissing) {
-        await saveMessage(language === 'en' 
-          ? "I'm currently in 'Static Mode'. To enable my full AI brain, please add a Gemini API key to the .env file." 
-          : "मैं अभी 'स्टेटिक मोड' में हूँ। मेरी पूरी एआई क्षमता को सक्रिय करने के लिए, कृपया .env फ़ाइल में Gemini API कुंजी जोड़ें।", 'bot');
+        const errorMsg = language === 'en' 
+          ? "I'm currently in 'Static Mode' because the Gemini API key is missing. Please check your .env file." 
+          : "Gemini API कुंजी न होने के कारण मैं अभी 'स्टेटिक मोड' में हूँ। कृपया अपनी .env फ़ाइल की जाँच करें।";
+        setMessages(prev => [...prev, { id: 'error-' + Date.now(), sender: 'bot', text: errorMsg }]);
         setIsTyping(false);
         return;
       }
@@ -142,6 +142,11 @@ const InteractiveChat = ({ language }) => {
       await saveMessage(response, 'bot');
     } catch (error) {
       console.error("Chat Error:", error);
+      setMessages(prev => [...prev, { 
+        id: 'error-' + Date.now(), 
+        sender: 'bot', 
+        text: language === 'en' ? 'Something went wrong. Please try again.' : 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।' 
+      }]);
     } finally {
       setIsTyping(false);
     }
