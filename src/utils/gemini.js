@@ -1,10 +1,10 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
 export const getGeminiResponse = async (prompt, language = 'en') => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   
   if (!apiKey || apiKey.includes('YOUR_GEMINI_API_KEY')) {
-    throw new Error("Gemini API Key is missing or invalid.");
+    throw new Error("API_KEY_MISSING");
   }
 
   try {
@@ -12,16 +12,24 @@ export const getGeminiResponse = async (prompt, language = 'en') => {
     const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
       systemInstruction: language === 'hi' 
-        ? "आप एक भारतीय चुनाव सहायक हैं। आप भारतीय चुनाव प्रक्रिया के बारे में सटीक जानकारी देते हैं। विनम्र रहें।"
-        : "You are an Indian Election Assistant. You provide accurate info about the Indian electoral process. Be polite.",
+        ? "आप एक भारतीय चुनाव सहायक हैं। चुनाव प्रक्रिया के बारे में जानकारी दें।"
+        : "You are an Indian Election Assistant. Answer only election related questions.",
+      safetySettings: [
+        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+      ],
     });
 
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+    return result.response.text();
   } catch (error) {
-    console.error("Gemini SDK Error:", error);
-    throw error;
+    console.error("Gemini SDK Detailed Error:", error);
+    // Return a more descriptive error for debugging
+    return `[AI Error]: ${error.message || "Unknown error"}. Please check your API key and connection.`;
   }
 };
+
+
 
