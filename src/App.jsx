@@ -16,7 +16,11 @@ function App() {
   const [showAssistant, setShowAssistant] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
+  const [language, setLanguage] = useState(() => {
+    const saved = localStorage.getItem('language');
+    // Guard against unsupported language codes
+    return saved && translations[saved] ? saved : 'en';
+  });
 
   const { user } = useAuth();
   const t = translations[language];
