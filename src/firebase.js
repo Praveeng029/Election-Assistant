@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// Initialize Firestore
+// Initialize Firestore (Required for Chat History)
 export const db = getFirestore(app);
 
 // Initialize Analytics only in browser environments
@@ -30,4 +30,3 @@ isSupported().then((supported) => {
 });
 
 export default app;
-

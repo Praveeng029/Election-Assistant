@@ -128,6 +128,16 @@ const InteractiveChat = ({ language }) => {
     setIsTyping(true);
 
     try {
+      const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY');
+      
+      if (isKeyMissing) {
+        await saveMessage(language === 'en' 
+          ? "I'm currently in 'Static Mode'. To enable my full AI brain, please add a Gemini API key to the .env file." 
+          : "मैं अभी 'स्टेटिक मोड' में हूँ। मेरी पूरी एआई क्षमता को सक्रिय करने के लिए, कृपया .env फ़ाइल में Gemini API कुंजी जोड़ें।", 'bot');
+        setIsTyping(false);
+        return;
+      }
+
       const response = await getGeminiResponse(userText, language);
       await saveMessage(response, 'bot');
     } catch (error) {
