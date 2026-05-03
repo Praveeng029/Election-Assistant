@@ -78,8 +78,21 @@ const InteractiveChat = ({ language }) => {
         return timeA - timeB;
       });
 
-      // Always show welcome at top, then chat history
-      setMessages([welcomeMsg, ...msgs]);
+      // Merge Firestore messages with local optimistic messages to prevent "disappearing" answers
+      setMessages(prev => {
+        const localOptimistic = prev.filter(m => 
+          m.id?.toString().startsWith('bot-') || 
+          m.id?.toString().startsWith('error-') || 
+          m.id?.toString().startsWith('offline-')
+        );
+        
+        // Filter out optimistic messages that have now been synced to Firestore
+        const remainingOptimistic = localOptimistic.filter(om => 
+          !msgs.some(fm => fm.text === om.text && fm.sender === om.sender)
+        );
+
+        return [welcomeMsg, ...msgs, ...remainingOptimistic];
+      });
     }, (error) => {
       console.error("Firestore error:", error);
       // Fallback: show just the welcome message if Firestore fails
