@@ -24,7 +24,7 @@ export const getGeminiResponse = async (prompt, language = 'en', retries = 2) =>
       
       // Use Google Search tool for live accuracy if available
       const modelConfig = { 
-        model: "gemini-1.5-flash-latest",
+        model: "gemini-1.5-flash",
         systemInstruction: language === 'hi' 
           ? `आप एक वरिष्ठ भारतीय चुनाव विशेषज्ञ और शिक्षाविद् हैं। आपका मिशन नागरिकों को भारत की लोकतांत्रिक प्रक्रिया के बारे में सटीक और निष्पक्ष जानकारी देना है।
              - विषय: आपका ज्ञान चुनाव आयोग (ECI), मतदान प्रक्रिया, EVM/VVPAT, आदर्श आचार संहिता (MCC), और चुनावी इतिहास तक सीमित होना चाहिए।
