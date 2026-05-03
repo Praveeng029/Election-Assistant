@@ -22,8 +22,7 @@ export const getGeminiResponse = async (prompt, language = 'en', retries = 2) =>
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ 
-        model: "gemini-2.5-flash",
-        tools: [{ googleSearch: {} }],
+        model: "gemini-1.5-flash",
         systemInstruction: language === 'hi' 
           ? "आप एक भारतीय चुनाव विशेषज्ञ हैं। आपको केवल चुनाव, मतदान प्रक्रिया, और राजनीति से संबंधित प्रश्नों के उत्तर देने हैं। यदि उपयोगकर्ता चुनाव से असंबंधित कुछ पूछता है, तो विनम्रतापूर्वक उत्तर देने से मना कर दें।"
           : "You are an Indian Election Expert. You must ONLY answer questions related to elections, voting processes, and politics. If the user asks something completely unrelated to elections, politely refuse to answer.",
