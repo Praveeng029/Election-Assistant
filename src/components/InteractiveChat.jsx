@@ -55,6 +55,19 @@ const InteractiveChat = ({ language }) => {
       where('userId', '==', user.uid)
     );
 
+    // Build a personalized welcome message using the user's name
+    const userName = user.displayName ? user.displayName.split(' ')[0] : null;
+    const welcomeText = language === 'en'
+      ? `Namaste${userName ? `, ${userName}` : ''}! 🙏 Welcome back to your Election Guide. Ask me anything about Indian elections, voting processes, or election results!`
+      : `नमस्ते${userName ? `, ${userName}` : ''}! 🙏 आपके चुनाव मार्गदर्शक में वापस स्वागत है। भारतीय चुनावों, मतदान प्रक्रिया या चुनाव परिणामों के बारे में कुछ भी पूछें!`;
+
+    const welcomeMsg = {
+      id: 'welcome-pinned',
+      sender: 'bot',
+      text: welcomeText,
+      timestamp: { toMillis: () => 0 } // Always sort to top
+    };
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -65,21 +78,12 @@ const InteractiveChat = ({ language }) => {
         return timeA - timeB;
       });
 
-      if (msgs.length === 0) {
-        setMessages([{
-          id: 'welcome',
-          sender: 'bot',
-          text: language === 'en'
-            ? 'Namaste! 🙏 I am your Election Guide. Ask me anything about Indian elections!'
-            : 'नमस्ते! 🙏 मैं आपका चुनाव मार्गदर्शक हूँ। मुझसे भारतीय चुनावों के बारे में कुछ भी पूछें!',
-          timestamp: new Date()
-        }]);
-      } else {
-        setMessages(msgs);
-      }
+      // Always show welcome at top, then chat history
+      setMessages([welcomeMsg, ...msgs]);
     }, (error) => {
       console.error("Firestore error:", error);
-      // Fallback for local display if Firestore fails
+      // Fallback: show just the welcome message if Firestore fails
+      setMessages([welcomeMsg]);
     });
 
     return () => unsubscribe();
