@@ -123,11 +123,18 @@ const Insights = ({ language }) => {
             }
           }
           
+          // Filter for strictly election-related content
+          const electionKeywords = ['election', 'poll', 'vote', 'voter', 'constituency', 'eci', 'ballot', 'evm', 'mcc', 'counting', 'candidate', 'nomination'];
+          const filteredItems = uniqueItems.filter(item => {
+            const content = (item.title + ' ' + (item.description || '')).toLowerCase();
+            return electionKeywords.some(keyword => content.includes(keyword));
+          });
+
           // Sort news by latest published date (descending)
-          uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          filteredItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
           
-          // Show top 4 items for more "freshness"
-          liveNews = uniqueItems.slice(0, 4).map((item, index) => {
+          // Show top 4 items
+          liveNews = filteredItems.slice(0, 4).map((item, index) => {
             const pubDate = new Date(item.pubDate);
             const now = new Date();
             const diffMs = now - pubDate;
