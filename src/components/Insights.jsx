@@ -78,8 +78,9 @@ const Insights = ({ language }) => {
       try {
         // Fetch real-time news data about Indian Elections
         // Fetch real-time news data about Indian Elections using a free RSS-to-JSON API
-        const rssUrl = "https://www.thehindu.com/elections/feeder/default.rss";
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+        const cacheBuster = Date.now();
+        const rssUrl = `https://www.thehindu.com/elections/feeder/default.rss?t=${cacheBuster}`;
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
         
         let liveNews = [];
@@ -160,8 +161,8 @@ const Insights = ({ language }) => {
 
     fetchData();
     
-    // Set up polling to refresh news every hour (3600000 ms)
-    const intervalId = setInterval(fetchData, 3600000);
+    // Set up polling to refresh news every 5 minutes (300000 ms)
+    const intervalId = setInterval(fetchData, 300000);
     
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [language]);
@@ -233,7 +234,7 @@ const Insights = ({ language }) => {
         <section className="news-section full-width" aria-labelledby="daily-news-title">
           <div className="section-title">
             <Newspaper />
-            <h3 id="daily-news-title">{language === 'en' ? 'Daily Updates' : 'दैनिक अपडेट'}</h3>
+            <h3 id="daily-news-title">{language === 'en' ? 'Latest News' : 'ताज़ा खबरें'}</h3>
           </div>
           <div className="news-grid-expanded">
             {loading ? (
