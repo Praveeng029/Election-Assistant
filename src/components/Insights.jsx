@@ -101,7 +101,18 @@ const Insights = ({ language }) => {
         
         let liveNews = [];
         if (data && data.status === 'ok' && data.items) {
-          liveNews = data.items.slice(0, 3).map((item, index) => {
+          // Remove duplicates based on link or title
+          const uniqueItems = [];
+          const seenLinks = new Set();
+          
+          for (const item of data.items) {
+            if (!seenLinks.has(item.link)) {
+              seenLinks.add(item.link);
+              uniqueItems.push(item);
+            }
+          }
+          
+          liveNews = uniqueItems.slice(0, 3).map((item, index) => {
             // Extract the date and format it nicely
             const pubDate = new Date(item.pubDate);
             const now = new Date();
