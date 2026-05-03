@@ -2,61 +2,56 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
 
 const responseCache = new Map();
 
-export const getGeminiResponse = async (prompt, language = 'en') => {
+export const getGeminiResponse = async (prompt, language = 'en', retries = 2) => {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  if (!apiKey || apiKey.includes('YOUR_GEMINI_API_KEY') || apiKey.length < 10) {
+  if (!apiKey || apiKey.length < 10) {
     throw new Error("API_KEY_MISSING");
   }
 
-  // Cache check for performance
   const cacheKey = `${language}-${prompt.toLowerCase().trim()}`;
   if (responseCache.has(cacheKey)) return responseCache.get(cacheKey);
 
   const genAI = new GoogleGenerativeAI(apiKey);
+  
   const systemInstruction = language === 'hi' 
-    ? "आप एक भारतीय चुनाव विशेषज्ञ हैं। भारतीय चुनाव प्रक्रिया और ताज़ा घटनाक्रमों के बारे में सटीक जानकारी दें।"
-    : "You are an Indian Election Expert. Provide accurate and up-to-date information about the Indian electoral process and current events.";
+    ? "आप एक भारतीय चुनाव विशेषज्ञ हैं। Google Search का उपयोग करके ताज़ा और सटीक जानकारी दें।"
+    : "You are an Indian Election Expert. Provide the latest and most accurate information using Google Search for real-time data.";
 
-  // Try with Google Search tool first for "up-to-date" requirement
-  try {
-    const searchModel = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
-      tools: [{ googleSearch: {} }],
-      systemInstruction,
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-      ],
-    });
-
-    const result = await searchModel.generateContent(prompt);
-    const text = result.response.text();
-    if (text) {
-      responseCache.set(cacheKey, text);
-      return text;
-    }
-  } catch (searchError) {
-    console.warn("Gemini Search failed, falling back to standard model:", searchError.message);
-    
-    // Fallback to standard model without tools if Search fails
+  for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const standardModel = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+      console.log(`Gemini API Attempt ${attempt + 1}/${retries + 1} with gemini-1.5-flash-latest...`);
+      
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash-latest",
+        tools: [{ googleSearch: {} }],
         systemInstruction,
+        safetySettings: [
+          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        ],
       });
-      const result = await standardModel.generateContent(prompt);
+
+      const result = await model.generateContent(prompt);
       const text = result.response.text();
-      if (text) {
+      
+      if (text && text.trim() !== '') {
         responseCache.set(cacheKey, text);
         return text;
       }
-    } catch (finalError) {
-      console.error("Gemini API Error:", finalError);
-      return language === 'hi' 
-        ? "क्षमा करें, मुझे अभी उत्तर देने में समस्या हो रही है। कृपया eci.gov.in देखें।"
-        : "I'm having trouble responding right now. For the latest updates, please visit the official ECI website at eci.gov.in.";
+      
+      throw new Error("EMPTY_RESPONSE");
+      
+    } catch (error) {
+      console.error(`Gemini Error on attempt ${attempt + 1}:`, error.message);
+      
+      if (attempt === retries) {
+        throw error; // Re-throw the last error so UI can handle it
+      }
+      
+      // Wait before retrying (exponential backoff)
+      await new Promise(res => setTimeout(res, 1000 * Math.pow(2, attempt)));
     }
   }
-  
-  return language === 'hi' ? "क्षमा करें, मुझे कोई उत्तर नहीं मिला।" : "I couldn't find an answer for that.";
 };
