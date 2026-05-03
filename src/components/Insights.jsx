@@ -82,32 +82,43 @@ const Insights = ({ language }) => {
       
       try {
         const cacheBuster = Date.now();
-        const rssUrl = `https://www.thehindu.com/elections/feeder/default.rss?t=${cacheBuster}`;
+        const feeds = [
+          `https://www.thehindu.com/elections/feeder/default.rss?t=${cacheBuster}`,
+          `https://www.thehindu.com/news/national/feeder/default.rss?t=${cacheBuster}`
+        ];
         
-        let response;
-        let retries = 2;
-        
-        while (retries >= 0) {
-          try {
-            response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-            if (response.ok) break;
-          } catch (e) {
-            if (retries === 0) throw e;
+        const results = await Promise.all(feeds.map(async (rssUrl) => {
+          let retries = 2;
+          while (retries >= 0) {
+            try {
+              const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+              if (response.ok) return await response.json();
+            } catch (e) {
+              if (retries === 0) return null;
+            }
+            retries--;
+            await new Promise(res => setTimeout(res, 800));
           }
-          retries--;
-          await new Promise(res => setTimeout(res, 1000));
-        }
-        const data = await response.json();
+          return null;
+        }));
+
+        let allItems = [];
+        results.forEach(data => {
+          if (data && data.status === 'ok' && data.items) {
+            allItems = [...allItems, ...data.items];
+          }
+        });
         
         let liveNews = [];
-        if (data && data.status === 'ok' && data.items) {
+        if (allItems.length > 0) {
           // Remove duplicates based on link or title
           const uniqueItems = [];
           const seenLinks = new Set();
           
-          for (const item of data.items) {
-            if (!seenLinks.has(item.link)) {
-              seenLinks.add(item.link);
+          for (const item of allItems) {
+            const link = item.link?.split('?')[0]; // strip query params for better matching
+            if (!seenLinks.has(link)) {
+              seenLinks.add(link);
               uniqueItems.push(item);
             }
           }
@@ -115,22 +126,27 @@ const Insights = ({ language }) => {
           // Sort news by latest published date (descending)
           uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
           
-          liveNews = uniqueItems.slice(0, 3).map((item, index) => {
-            // Extract the date and format it nicely
+          // Show top 4 items for more "freshness"
+          liveNews = uniqueItems.slice(0, 4).map((item, index) => {
             const pubDate = new Date(item.pubDate);
             const now = new Date();
             const diffMs = now - pubDate;
             const diffMins = Math.floor(diffMs / 60000);
             const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
             
             let dateStr = "Just Now";
-            if (diffHours > 0) dateStr = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays > 0) dateStr = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            else if (diffHours > 0) dateStr = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
             else if (diffMins > 0) dateStr = `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
             
+            // Map source name based on feed or content
+            const sourceName = 'The Hindu';
+
             return {
               id: `live-${index}-${item.guid || Date.now()}`,
               title: item.title,
-              source: "The Hindu",
+              source: sourceName,
               image: item.enclosure?.link || item.thumbnail || "https://images.unsplash.com/photo-1540910419892-f0c74b0e8966?q=80&w=800&auto=format&fit=crop",
               date: dateStr,
               url: item.link
