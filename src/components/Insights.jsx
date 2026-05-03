@@ -112,6 +112,9 @@ const Insights = ({ language }) => {
             }
           }
           
+          // Sort news by latest published date (descending)
+          uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          
           liveNews = uniqueItems.slice(0, 3).map((item, index) => {
             // Extract the date and format it nicely
             const pubDate = new Date(item.pubDate);
