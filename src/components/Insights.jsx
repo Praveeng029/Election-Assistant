@@ -177,8 +177,8 @@ const Insights = ({ language }) => {
 
     fetchData();
     
-    // Set up polling to refresh news every 5 minutes (300000 ms)
-    const intervalId = setInterval(fetchData, 300000);
+    // Set up polling to refresh news every 2 minutes (120000 ms)
+    const intervalId = setInterval(fetchData, 120000);
     
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [language]);
