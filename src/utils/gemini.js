@@ -10,10 +10,11 @@ export const getGeminiResponse = async (prompt, language = 'en') => {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
+      tools: [{ googleSearch: {} }],
       systemInstruction: language === 'hi' 
-        ? "आप एक भारतीय चुनाव सहायक हैं। चुनाव प्रक्रिया के बारे में जानकारी दें।"
-        : "You are an Indian Election Assistant. Answer only election related questions.",
+        ? "आप एक भारतीय चुनाव सहायक हैं। चुनाव प्रक्रिया के बारे में सटीक, अद्यतित (up-to-date) जानकारी दें।"
+        : "You are an Indian Election Assistant. Answer only election related questions using the most up-to-date information.",
       safetySettings: [
         { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
         { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },

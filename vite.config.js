@@ -11,5 +11,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/tests/setup.js',
     css: true,
-  },
+    env: {
+      VITE_GEMINI_API_KEY: 'test-api-key-1234567890'
+    }
+  }
 })

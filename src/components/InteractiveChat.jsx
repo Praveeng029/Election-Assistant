@@ -58,10 +58,10 @@ const InteractiveChat = ({ language }) => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data({ serverTimestamps: 'estimate' })
       })).sort((a, b) => {
-        const timeA = a.timestamp?.seconds ? a.timestamp.seconds * 1000 : (a.timestamp instanceof Date ? a.timestamp.getTime() : 0);
-        const timeB = b.timestamp?.seconds ? b.timestamp.seconds * 1000 : (b.timestamp instanceof Date ? b.timestamp.getTime() : 0);
+        const timeA = a.timestamp?.toMillis ? a.timestamp.toMillis() : 0;
+        const timeB = b.timestamp?.toMillis ? b.timestamp.toMillis() : 0;
         return timeA - timeB;
       });
       
@@ -113,12 +113,12 @@ const InteractiveChat = ({ language }) => {
     }
   };
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async (e, forcedText = null) => {
     if (e) e.preventDefault();
-    if (!inputValue.trim()) return;
+    const userText = forcedText || inputValue;
+    if (!userText.trim()) return;
 
-    const userText = inputValue;
-    setInputValue('');
+    if (!forcedText) setInputValue('');
     
     // Optimistic UI update for better responsiveness
     const tempId = Date.now().toString();
@@ -169,7 +169,7 @@ const InteractiveChat = ({ language }) => {
         errorMsg = language === 'en' 
           ? "AI configuration missing. Please add your Gemini API key." 
           : "AI कॉन्फ़िगरेशन मौजूद नहीं है। कृपया अपनी Gemini API कुंजी जोड़ें।";
-      } else if (error.message.includes("SAFETY")) {
+      } else if (error.message?.includes("SAFETY")) {
         errorMsg = language === 'en'
           ? "I cannot answer that due to safety guidelines. Please ask another election-related question."
           : "सुरक्षा दिशानिर्देशों के कारण मैं इसका उत्तर नहीं दे सकता। कृपया चुनाव से संबंधित कोई अन्य प्रश्न पूछें।";
@@ -187,17 +187,7 @@ const InteractiveChat = ({ language }) => {
 
   const handleQuestionClick = async (item) => {
     const questionText = item.question[language];
-    const answerText = item.answer[language];
-    
-    if (user) {
-      await saveMessage(questionText, 'user');
-      await saveMessage(answerText, 'bot');
-    } else {
-      setMessages(prev => [...prev, 
-        { id: Date.now(), sender: 'user', text: questionText },
-        { id: Date.now() + 1, sender: 'bot', text: answerText }
-      ]);
-    }
+    handleSendMessage(null, questionText);
   };
 
   return (
