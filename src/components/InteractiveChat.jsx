@@ -3,14 +3,14 @@ import chatData from '../data/chatResponses.json';
 import { Send, Bot, User, Loader2, History, Trash2, MessageSquare } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { db } from '../firebase';
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  serverTimestamp, 
-  deleteDoc, 
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
   getDocs,
   where
 } from 'firebase/firestore';
@@ -20,7 +20,7 @@ import { getGeminiResponse } from '../utils/gemini';
 const InteractiveChat = ({ language }) => {
   const t = translations[language];
   const { user } = useAuth();
-  
+
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -41,8 +41,8 @@ const InteractiveChat = ({ language }) => {
       setMessages([{
         id: 'welcome',
         sender: 'bot',
-        text: language === 'en' 
-          ? 'Namaste! 🙏 I am your Election Guide. Please log in to save your chat history and talk to our AI assistant.' 
+        text: language === 'en'
+          ? 'Namaste! 🙏 I am your Election Guide. Please log in to save your chat history and talk to our AI assistant.'
           : 'नमस्ते! 🙏 मैं आपका चुनाव मार्गदर्शक हूँ। अपनी चैट हिस्ट्री को सहेजने और हमारे एआई सहायक से बात करने के लिए कृपया लॉग इन करें।',
         timestamp: new Date()
       }]);
@@ -64,13 +64,13 @@ const InteractiveChat = ({ language }) => {
         const timeB = b.timestamp?.toMillis ? b.timestamp.toMillis() : 0;
         return timeA - timeB;
       });
-      
+
       if (msgs.length === 0) {
         setMessages([{
           id: 'welcome',
           sender: 'bot',
-          text: language === 'en' 
-            ? 'Namaste! 🙏 I am your Election Guide. Ask me anything about Indian elections!' 
+          text: language === 'en'
+            ? 'Namaste! 🙏 I am your Election Guide. Ask me anything about Indian elections!'
             : 'नमस्ते! 🙏 मैं आपका चुनाव मार्गदर्शक हूँ। मुझसे भारतीय चुनावों के बारे में कुछ भी पूछें!',
           timestamp: new Date()
         }]);
@@ -119,19 +119,28 @@ const InteractiveChat = ({ language }) => {
     if (!userText.trim()) return;
 
     if (!forcedText) setInputValue('');
-    
+
     // Optimistic UI update for better responsiveness
     const tempId = Date.now().toString();
     setMessages(prev => [...prev, { id: tempId, sender: 'user', text: userText, timestamp: new Date() }]);
 
     if (!user) {
       setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          id: Date.now() + 1, 
-          sender: 'bot', 
-          text: language === 'en' ? 'Please log in to use the AI assistant.' : 'एआई सहायक का उपयोग करने के लिए कृपया लॉग इन करें।' 
+        setMessages(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'bot',
+          text: language === 'en' ? 'Please log in to use the AI assistant.' : 'एआई सहायक का उपयोग करने के लिए कृपया लॉग इन करें।'
         }]);
       }, 1000);
+      return;
+    }
+
+    if (!navigator.onLine) {
+      setMessages(prev => [...prev, { 
+        id: 'offline-' + Date.now(), 
+        sender: 'bot', 
+        text: language === 'en' ? 'You are offline. Please check your internet connection and try again.' : 'आप ऑफ़लाइन हैं। कृपया अपने इंटरनेट कनेक्शन की जांच करें और पुनः प्रयास करें।' 
+      }]);
       return;
     }
 
@@ -141,16 +150,16 @@ const InteractiveChat = ({ language }) => {
       // Save to Firestore (don't wait for it to finish before calling AI)
       saveMessage(userText, 'user').catch(e => console.warn("Firestore Save failed:", e));
 
-      const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY || 
-                          import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY') ||
-                          import.meta.env.VITE_GEMINI_API_KEY.length < 10;
-      
+      const isKeyMissing = !import.meta.env.VITE_GEMINI_API_KEY ||
+        import.meta.env.VITE_GEMINI_API_KEY.includes('YOUR_GEMINI_API_KEY') ||
+        import.meta.env.VITE_GEMINI_API_KEY.length < 10;
+
       if (isKeyMissing) {
         throw new Error("API_KEY_MISSING");
       }
 
       const response = await getGeminiResponse(userText, language);
-      
+
       // Save bot response (don't wait)
       saveMessage(response, 'bot').catch(e => console.warn("Firestore Save failed:", e));
 
@@ -165,10 +174,22 @@ const InteractiveChat = ({ language }) => {
       console.error("Chat Error:", error);
       let errorMsg = language === 'en' ? 'Something went wrong. Please try again.' : 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।';
       
-      if (error.message === "API_KEY_MISSING") {
+      if (error.message === "OFFLINE") {
+        errorMsg = language === 'en' 
+          ? 'Network disconnected. Please check your internet connection.' 
+          : 'नेटवर्क कट गया। कृपया अपने इंटरनेट कनेक्शन की जांच करें।';
+      } else if (error.message === "API_KEY_MISSING") {
         errorMsg = language === 'en' 
           ? "AI configuration missing. Please add your Gemini API key." 
           : "AI कॉन्फ़िगरेशन मौजूद नहीं है। कृपया अपनी Gemini API कुंजी जोड़ें।";
+      } else if (error.message === "EMPTY_RESPONSE") {
+        errorMsg = language === 'en' 
+          ? "The AI returned an empty response. Please try rephrasing your question." 
+          : "AI ने खाली उत्तर दिया। कृपया अपना प्रश्न बदलकर पूछें।";
+      } else if (error.message === "API_ERROR") {
+        errorMsg = language === 'en' 
+          ? "Our AI servers are currently busy. Please wait a moment and try again." 
+          : "हमारे एआई सर्वर अभी व्यस्त हैं। कृपया कुछ क्षण प्रतीक्षा करें और पुनः प्रयास करें।";
       } else if (error.message?.includes("SAFETY")) {
         errorMsg = language === 'en'
           ? "I cannot answer that due to safety guidelines. Please ask another election-related question."
@@ -260,9 +281,9 @@ const InteractiveChat = ({ language }) => {
             </div>
 
             <form className="chat-input-form" onSubmit={handleSendMessage}>
-              <input 
-                type="text" 
-                placeholder={language === 'en' ? "Ask a question..." : "प्रश्न पूछें..."} 
+              <input
+                type="text"
+                placeholder={language === 'en' ? "Ask a question..." : "प्रश्न पूछें..."}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isTyping}

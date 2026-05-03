@@ -73,14 +73,30 @@ const Insights = ({ language }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!navigator.onLine) {
+        setLoading(false);
+        return; // Offline: don't fetch, preserve existing news
+      }
+
       setLoading(true);
       
       try {
-        // Fetch real-time news data about Indian Elections
-        // Fetch real-time news data about Indian Elections using a free RSS-to-JSON API
         const cacheBuster = Date.now();
         const rssUrl = `https://www.thehindu.com/elections/feeder/default.rss?t=${cacheBuster}`;
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        
+        let response;
+        let retries = 2;
+        
+        while (retries >= 0) {
+          try {
+            response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+            if (response.ok) break;
+          } catch (e) {
+            if (retries === 0) throw e;
+          }
+          retries--;
+          await new Promise(res => setTimeout(res, 1000));
+        }
         const data = await response.json();
         
         let liveNews = [];
@@ -108,21 +124,10 @@ const Insights = ({ language }) => {
           });
         }
         
-        // Fallback if the API fails
-        if (liveNews.length === 0) {
-          liveNews = [
-            {
-              id: `fallback-1`,
-              title: language === 'en' ? "Election Commission issues notice to political parties over MCC violations" : "चुनाव आयोग ने आचार संहिता उल्लंघन पर राजनीतिक दलों को नोटिस जारी किया",
-              source: "NDTV",
-              image: "https://images.unsplash.com/photo-1590247813693-5541d1c609fd?q=80&w=800&auto=format&fit=crop",
-              date: "1 hour ago",
-              url: "https://www.ndtv.com/india-news/election-commission-issues-notice-to-political-parties-over-model-code-violations-5312456"
-            }
-          ];
+        // Update state only if we got valid data to prevent clearing UI on random failures
+        if (liveNews.length > 0) {
+          setDailyNews(liveNews);
         }
-
-        setDailyNews(liveNews);
         
         // For You — Wikipedia: 100% stable, free, no paywall, fully readable
         const mockForYou = [
