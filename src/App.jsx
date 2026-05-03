@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
-import Timeline from './components/Timeline';
-import Flashcard from './components/Flashcard';
-import Quiz from './components/Quiz';
-import InteractiveChat from './components/InteractiveChat';
-import Insights from './components/Insights';
 import AuthModal from './components/AuthModal';
 import { useAuth } from './context/AuthContext';
 import { MessageSquare } from 'lucide-react';
 import { translations } from './utils/translations';
 import './index.css';
+
+// Code splitting via lazy imports — improves initial load performance
+const Timeline = lazy(() => import('./components/Timeline'));
+const Flashcard = lazy(() => import('./components/Flashcard'));
+const Quiz = lazy(() => import('./components/Quiz'));
+const InteractiveChat = lazy(() => import('./components/InteractiveChat'));
+const Insights = lazy(() => import('./components/Insights'));
 
 function App() {
   const [activeTab, setActiveTab] = useState('timeline');
@@ -72,8 +74,10 @@ function App() {
         onAuthClick={() => setShowAuth(true)}
       />
       
-      <main className="main-content">
-        {renderContent()}
+      <main className="main-content" aria-live="polite" aria-atomic="false">
+        <Suspense fallback={<div className="fade-in" style={{textAlign:'center',padding:'4rem',color:'var(--text-muted)'}}>Loading...</div>}>
+          {renderContent()}
+        </Suspense>
       </main>
 
       {/* Auth FAB */}

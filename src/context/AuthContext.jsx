@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
 

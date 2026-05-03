@@ -13,6 +13,7 @@ window.IntersectionObserver = vi.fn(() => ({
 vi.mock('../firebase', () => ({
   auth: {},
   googleProvider: {},
+  db: {},
   default: {},
 }));
 

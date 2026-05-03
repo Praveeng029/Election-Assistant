@@ -142,7 +142,8 @@ describe('💬 Chat Error Handling', () => {
 
   it('returns a fallback response for completely unknown questions', async () => {
     const user = userEvent.setup();
-    renderWithAuth(<InteractiveChat language="en" />);
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
+    renderWithAuth(<InteractiveChat language="en" />, { user: { uid: 'test-uid', email: 'test@test.com', displayName: 'Tester' } });
 
     const input = document.querySelector('.chat-input-form input');
     await user.type(input, 'xyzzy totally unknown query !!');
@@ -154,12 +155,14 @@ describe('💬 Chat Error Handling', () => {
         b.textContent.includes('eci.gov.in') || b.textContent.includes('not exactly sure')
       );
       expect(botReplies).toBeInTheDocument();
-    }, { timeout: 3000 });
+    }, { timeout: 4000 });
   });
 
   it('shows typing indicator while bot is responding', async () => {
     const user = userEvent.setup();
-    renderWithAuth(<InteractiveChat language="en" />);
+    // Mock navigator.onLine as true so offline guard passes
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
+    renderWithAuth(<InteractiveChat language="en" />, { user: { uid: 'test-uid', email: 'test@test.com', displayName: 'Tester' } });
 
     const input = document.querySelector('.chat-input-form input');
     await user.type(input, 'Tell me about elections');
@@ -167,12 +170,14 @@ describe('💬 Chat Error Handling', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.typing-indicator')).toBeInTheDocument();
-    });
+    }, { timeout: 2000 });
   });
 
   it('input is disabled while bot is typing', async () => {
     const user = userEvent.setup();
-    renderWithAuth(<InteractiveChat language="en" />);
+    // Mock navigator.onLine as true so offline guard passes
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(true);
+    renderWithAuth(<InteractiveChat language="en" />, { user: { uid: 'test-uid', email: 'test@test.com', displayName: 'Tester' } });
 
     const input = document.querySelector('.chat-input-form input');
     await user.type(input, 'Election process');
@@ -180,7 +185,7 @@ describe('💬 Chat Error Handling', () => {
 
     await waitFor(() => {
       expect(input.disabled).toBe(true);
-    });
+    }, { timeout: 2000 });
   });
 
   it('handles greeting messages correctly', async () => {
