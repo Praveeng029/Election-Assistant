@@ -22,10 +22,10 @@ export const getGeminiResponse = async (prompt, language = 'en', retries = 2) =>
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-1.5-flash-latest",
         systemInstruction: language === 'hi' 
-          ? "आप एक भारतीय चुनाव विशेषज्ञ हैं। आपको केवल चुनाव, मतदान प्रक्रिया, और राजनीति से संबंधित प्रश्नों के उत्तर देने हैं। यदि उपयोगकर्ता चुनाव से असंबंधित कुछ पूछता है, तो विनम्रतापूर्वक उत्तर देने से मना कर दें।"
-          : "You are an Indian Election Expert. You must ONLY answer questions related to elections, voting processes, and politics. If the user asks something completely unrelated to elections, politely refuse to answer.",
+          ? "आप एक भारतीय चुनाव विशेषज्ञ हैं। केवल चुनाव, मतदान और राजनीति के उत्तर दें।"
+          : "You are an Indian Election Expert. Only answer questions related to elections, voting, and politics.",
         safetySettings: [
           { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
           { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
@@ -45,19 +45,24 @@ export const getGeminiResponse = async (prompt, language = 'en', retries = 2) =>
       return text;
       
     } catch (error) {
-      console.error(`Gemini SDK Error (Attempt ${attempt + 1}/${retries + 1}):`, error);
+      // Detailed logging for debugging
+      console.error(`Gemini API Error (Attempt ${attempt + 1}/${retries + 1}):`, {
+        message: error.message,
+        stack: error.stack,
+        prompt: prompt.substring(0, 50) + "..."
+      });
       
-      // Don't retry on missing API key or safety errors
       if (error.message === "API_KEY_MISSING" || error.message?.includes("SAFETY")) {
         throw error;
       }
       
-      // If it's the last attempt, throw the generic API error
       if (attempt === retries) {
-        throw new Error("API_ERROR");
+        // Return a graceful fallback instead of crashing
+        return language === 'hi'
+          ? "माफ़ कीजिये, मैं अभी उत्तर नहीं दे पा रहा हूँ। कृपया भारतीय चुनाव आयोग की वेबसाइट (eci.gov.in) देखें।"
+          : "I'm currently unable to fetch a specific answer. For the most accurate information, please visit the Election Commission of India website at eci.gov.in.";
       }
       
-      // Wait before retrying (exponential backoff)
       await new Promise(res => setTimeout(res, 1000 * Math.pow(2, attempt)));
     }
   }

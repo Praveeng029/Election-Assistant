@@ -190,10 +190,6 @@ const InteractiveChat = ({ language }) => {
         errorMsg = language === 'en' 
           ? "The AI returned an empty response. Please try rephrasing your question." 
           : "AI ने खाली उत्तर दिया। कृपया अपना प्रश्न बदलकर पूछें।";
-      } else if (error.message === "API_ERROR") {
-        errorMsg = language === 'en' 
-          ? "Our AI servers are currently busy. Please wait a moment and try again." 
-          : "हमारे एआई सर्वर अभी व्यस्त हैं। कृपया कुछ क्षण प्रतीक्षा करें और पुनः प्रयास करें।";
       } else if (error.message?.includes("SAFETY")) {
         errorMsg = language === 'en'
           ? "I cannot answer that due to safety guidelines. Please ask another election-related question."
